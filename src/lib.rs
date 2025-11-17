@@ -148,6 +148,27 @@ impl From<f128> for Algebraic<f128> {
     }
 }
 
+impl Into<f16> for Algebraic<f16> {
+    fn into(self) -> f16 {
+        self.value
+    }
+}
+impl Into<f32> for Algebraic<f32> {
+    fn into(self) -> f32 {
+        self.value
+    }
+}
+impl Into<f64> for Algebraic<f64> {
+    fn into(self) -> f64 {
+        self.value
+    }
+}
+impl Into<f128> for Algebraic<f128> {
+    fn into(self) -> f128 {
+        self.value
+    }
+}
+
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
