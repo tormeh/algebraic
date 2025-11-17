@@ -2,179 +2,129 @@
 #![feature(f128)]
 #![feature(float_algebraic)]
 
-impl std::ops::Add for Algebraic<f16> {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_add(rhs.value),
-        }
-    }
+pub trait AlgebraicFloatTrait {
+    fn algebraic_add(self, rhs: Self) -> Self;
+    fn algebraic_sub(self, rhs: Self) -> Self;
+    fn algebraic_mul(self, rhs: Self) -> Self;
+    fn algebraic_div(self, rhs: Self) -> Self;
+    fn algebraic_rem(self, rhs: Self) -> Self;
 }
-impl std::ops::Add for Algebraic<f32> {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_add(rhs.value),
-        }
+
+impl AlgebraicFloatTrait for f16 {
+    fn algebraic_add(self, rhs: Self) -> Self {
+        Self::algebraic_add(self, rhs)
     }
-}
-impl std::ops::Add for Algebraic<f64> {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_add(rhs.value),
-        }
+    fn algebraic_sub(self, rhs: Self) -> Self {
+        Self::algebraic_sub(self, rhs)
     }
-}
-impl std::ops::Add for Algebraic<f128> {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_add(rhs.value),
-        }
+    fn algebraic_mul(self, rhs: Self) -> Self {
+        Self::algebraic_mul(self, rhs)
+    }
+    fn algebraic_div(self, rhs: Self) -> Self {
+        Self::algebraic_div(self, rhs)
+    }
+    fn algebraic_rem(self, rhs: Self) -> Self {
+        Self::algebraic_rem(self, rhs)
     }
 }
 
-impl std::ops::Sub for Algebraic<f16> {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_add(rhs.value),
-        }
+impl AlgebraicFloatTrait for f32 {
+    fn algebraic_add(self, rhs: Self) -> Self {
+        Self::algebraic_add(self, rhs)
     }
-}
-impl std::ops::Sub for Algebraic<f32> {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_sub(rhs.value),
-        }
+    fn algebraic_sub(self, rhs: Self) -> Self {
+        Self::algebraic_sub(self, rhs)
     }
-}
-impl std::ops::Sub for Algebraic<f64> {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_sub(rhs.value),
-        }
+    fn algebraic_mul(self, rhs: Self) -> Self {
+        Self::algebraic_mul(self, rhs)
     }
-}
-impl std::ops::Sub for Algebraic<f128> {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_sub(rhs.value),
-        }
+    fn algebraic_div(self, rhs: Self) -> Self {
+        Self::algebraic_div(self, rhs)
+    }
+    fn algebraic_rem(self, rhs: Self) -> Self {
+        Self::algebraic_rem(self, rhs)
     }
 }
 
-impl std::ops::Mul for Algebraic<f16> {
-    type Output = Self;
-    fn mul(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_mul(rhs.value),
-        }
+impl AlgebraicFloatTrait for f64 {
+    fn algebraic_add(self, rhs: Self) -> Self {
+        Self::algebraic_add(self, rhs)
     }
-}
-impl std::ops::Mul for Algebraic<f32> {
-    type Output = Self;
-    fn mul(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_mul(rhs.value),
-        }
+    fn algebraic_sub(self, rhs: Self) -> Self {
+        Self::algebraic_sub(self, rhs)
     }
-}
-impl std::ops::Mul for Algebraic<f64> {
-    type Output = Self;
-    fn mul(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_mul(rhs.value),
-        }
+    fn algebraic_mul(self, rhs: Self) -> Self {
+        Self::algebraic_mul(self, rhs)
     }
-}
-impl std::ops::Mul for Algebraic<f128> {
-    type Output = Self;
-    fn mul(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_mul(rhs.value),
-        }
+    fn algebraic_div(self, rhs: Self) -> Self {
+        Self::algebraic_div(self, rhs)
+    }
+    fn algebraic_rem(self, rhs: Self) -> Self {
+        Self::algebraic_rem(self, rhs)
     }
 }
 
-impl std::ops::Div for Algebraic<f16> {
-    type Output = Self;
-    fn div(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_div(rhs.value),
-        }
+impl AlgebraicFloatTrait for f128 {
+    fn algebraic_add(self, rhs: Self) -> Self {
+        Self::algebraic_add(self, rhs)
+    }
+    fn algebraic_sub(self, rhs: Self) -> Self {
+        Self::algebraic_sub(self, rhs)
+    }
+    fn algebraic_mul(self, rhs: Self) -> Self {
+        Self::algebraic_mul(self, rhs)
+    }
+    fn algebraic_div(self, rhs: Self) -> Self {
+        Self::algebraic_div(self, rhs)
+    }
+    fn algebraic_rem(self, rhs: Self) -> Self {
+        Self::algebraic_rem(self, rhs)
     }
 }
 
-impl std::ops::Div for Algebraic<f32> {
-    type Output = Self;
-    fn div(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_div(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Div for Algebraic<f64> {
-    type Output = Self;
-    fn div(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_div(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Div for Algebraic<f128> {
-    type Output = Self;
-    fn div(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_div(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Rem for Algebraic<f16> {
-    type Output = Self;
-    fn rem(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_rem(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Rem for Algebraic<f32> {
-    type Output = Self;
-    fn rem(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_rem(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Rem for Algebraic<f64> {
-    type Output = Self;
-    fn rem(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_rem(rhs.value),
-        }
-    }
-}
-
-impl std::ops::Rem for Algebraic<f128> {
-    type Output = Self;
-    fn rem(self, rhs: Self) -> Self::Output {
-        Algebraic {
-            value: self.value.algebraic_rem(rhs.value),
-        }
-    }
-}
-
-pub struct Algebraic<T> {
+pub struct Algebraic<T: AlgebraicFloatTrait> {
     value: T,
+}
+
+impl<T: AlgebraicFloatTrait> std::ops::Add for Algebraic<T> {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            value: self.value.algebraic_add(rhs.value),
+        }
+    }
+}
+impl<T: AlgebraicFloatTrait> std::ops::Sub for Algebraic<T> {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            value: self.value.algebraic_sub(rhs.value),
+        }
+    }
+}
+impl<T: AlgebraicFloatTrait> std::ops::Mul for Algebraic<T> {
+    type Output = Self;
+    fn mul(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            value: self.value.algebraic_mul(rhs.value),
+        }
+    }
+}
+impl<T: AlgebraicFloatTrait> std::ops::Div for Algebraic<T> {
+    type Output = Self;
+    fn div(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            value: self.value.algebraic_div(rhs.value),
+        }
+    }
+}
+impl<T: AlgebraicFloatTrait> std::ops::Rem for Algebraic<T> {
+    type Output = Self;
+    fn rem(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            value: self.value.algebraic_rem(rhs.value),
+        }
+    }
 }
 
 impl From<f16> for Algebraic<f16> {
