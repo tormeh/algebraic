@@ -225,11 +225,51 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn add() {
         let result_a = 2.0 + 2.0;
         let b1: Algebraic<f64> = Algebraic::from(2.0);
         let b2: Algebraic<f64> = Algebraic::from(2.0);
         let result_b: Algebraic<f64> = b1 + b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn sub() {
+        let result_a = 2.0 - 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 - b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn mul() {
+        let result_a = 2.0 * 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 * b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn div() {
+        let result_a = 2.0 / 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 / b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn rem() {
+        let result_a = 2.0 % 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 % b2;
 
         assert_eq!(result_a, result_b.into());
     }
