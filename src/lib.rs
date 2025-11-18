@@ -9,6 +9,7 @@ pub trait AlgebraicFloatTrait {
     fn algebraic_div(self, rhs: Self) -> Self;
     fn algebraic_rem(self, rhs: Self) -> Self;
     fn zero() -> Self;
+    fn one() -> Self;
 }
 
 impl AlgebraicFloatTrait for f16 {
@@ -29,6 +30,9 @@ impl AlgebraicFloatTrait for f16 {
     }
     fn zero() -> Self {
         0.0
+    }
+    fn one() -> Self {
+        1.0
     }
 }
 
@@ -51,6 +55,9 @@ impl AlgebraicFloatTrait for f32 {
     fn zero() -> Self {
         0.0
     }
+    fn one() -> Self {
+        1.0
+    }
 }
 
 impl AlgebraicFloatTrait for f64 {
@@ -71,6 +78,9 @@ impl AlgebraicFloatTrait for f64 {
     }
     fn zero() -> Self {
         0.0
+    }
+    fn one() -> Self {
+        1.0
     }
 }
 
@@ -93,6 +103,9 @@ impl AlgebraicFloatTrait for f128 {
     fn zero() -> Self {
         0.0
     }
+    fn one() -> Self {
+        1.0
+    }
 }
 
 pub struct Algebraic<T: AlgebraicFloatTrait> {
@@ -102,6 +115,9 @@ pub struct Algebraic<T: AlgebraicFloatTrait> {
 impl<T: AlgebraicFloatTrait> Algebraic<T> {
     fn zero() -> Self {
         Self { value: T::zero() }
+    }
+    fn one() -> Self {
+        Self { value: T::one() }
     }
 }
 impl<T: AlgebraicFloatTrait> std::ops::Add for Algebraic<T> {
@@ -147,6 +163,11 @@ impl<T: AlgebraicFloatTrait> std::ops::Rem for Algebraic<T> {
 impl<T: AlgebraicFloatTrait> std::iter::Sum for Algebraic<T> {
     fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::zero(), |acc, x| acc + x)
+    }
+}
+impl<T: AlgebraicFloatTrait> std::iter::Product for Algebraic<T> {
+    fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Self::one(), |acc, x| acc * x)
     }
 }
 
@@ -250,11 +271,21 @@ mod tests {
     #[test]
     fn sum() {
         let b1: Algebraic<f64> = Algebraic::from(2.0);
-        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(8.0);
         let v = vec![b1, b2];
         let result: Algebraic<f64> = v.into_iter().sum();
         let result_f64: f64 = result.into();
 
-        assert_eq!(result_f64, 4.0);
+        assert_eq!(result_f64, 10.0);
+    }
+
+    #[test]
+    fn product() {
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(8.0);
+        let v = vec![b1, b2];
+        let result: Algebraic<f64> = v.into_iter().product();
+        let result_f64: f64 = result.into();
+        assert_eq!(result_f64, 16.0);
     }
 }
