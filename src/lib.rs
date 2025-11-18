@@ -8,6 +8,7 @@ pub trait AlgebraicFloatTrait {
     fn algebraic_mul(self, rhs: Self) -> Self;
     fn algebraic_div(self, rhs: Self) -> Self;
     fn algebraic_rem(self, rhs: Self) -> Self;
+    fn zero() -> Self;
 }
 
 impl AlgebraicFloatTrait for f16 {
@@ -25,6 +26,9 @@ impl AlgebraicFloatTrait for f16 {
     }
     fn algebraic_rem(self, rhs: Self) -> Self {
         Self::algebraic_rem(self, rhs)
+    }
+    fn zero() -> Self {
+        0.0
     }
 }
 
@@ -44,6 +48,9 @@ impl AlgebraicFloatTrait for f32 {
     fn algebraic_rem(self, rhs: Self) -> Self {
         Self::algebraic_rem(self, rhs)
     }
+    fn zero() -> Self {
+        0.0
+    }
 }
 
 impl AlgebraicFloatTrait for f64 {
@@ -61,6 +68,9 @@ impl AlgebraicFloatTrait for f64 {
     }
     fn algebraic_rem(self, rhs: Self) -> Self {
         Self::algebraic_rem(self, rhs)
+    }
+    fn zero() -> Self {
+        0.0
     }
 }
 
@@ -80,12 +90,20 @@ impl AlgebraicFloatTrait for f128 {
     fn algebraic_rem(self, rhs: Self) -> Self {
         Self::algebraic_rem(self, rhs)
     }
+    fn zero() -> Self {
+        0.0
+    }
 }
 
 pub struct Algebraic<T: AlgebraicFloatTrait> {
     value: T,
 }
 
+impl<T: AlgebraicFloatTrait> Algebraic<T> {
+    fn zero() -> Self {
+        Self { value: T::zero() }
+    }
+}
 impl<T: AlgebraicFloatTrait> std::ops::Add for Algebraic<T> {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
@@ -124,6 +142,11 @@ impl<T: AlgebraicFloatTrait> std::ops::Rem for Algebraic<T> {
         Self::Output {
             value: self.value.algebraic_rem(rhs.value),
         }
+    }
+}
+impl<T: AlgebraicFloatTrait> std::iter::Sum for Algebraic<T> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |acc, x| acc + x)
     }
 }
 
@@ -222,5 +245,16 @@ mod tests {
         let result_b: Algebraic<f64> = b1 % b2;
 
         assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn sum() {
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let v = vec![b1, b2];
+        let result: Algebraic<f64> = v.into_iter().sum();
+        let result_f64: f64 = result.into();
+
+        assert_eq!(result_f64, 4.0);
     }
 }
