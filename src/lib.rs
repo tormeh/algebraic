@@ -108,11 +108,11 @@ impl AlgebraicFloatTrait for f128 {
     }
 }
 
-pub struct Algebraic<T: AlgebraicFloatTrait> {
+pub struct Algebraic<T: AlgebraicFloatTrait + Sized + Clone> {
     value: T,
 }
 
-impl<T: AlgebraicFloatTrait> Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> Algebraic<T> {
     fn zero() -> Self {
         Self { value: T::zero() }
     }
@@ -120,7 +120,7 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
         Self { value: T::one() }
     }
 }
-impl<T: AlgebraicFloatTrait> std::ops::Add for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::ops::Add for Algebraic<T> {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
         Self::Output {
@@ -128,7 +128,14 @@ impl<T: AlgebraicFloatTrait> std::ops::Add for Algebraic<T> {
         }
     }
 }
-impl<T: AlgebraicFloatTrait> std::ops::Sub for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> Clone for Algebraic<T> {
+    fn clone(&self) -> Self {
+        Self {
+            value: self.value.clone(),
+        }
+    }
+}
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::ops::Sub for Algebraic<T> {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self::Output {
         Self::Output {
@@ -136,7 +143,7 @@ impl<T: AlgebraicFloatTrait> std::ops::Sub for Algebraic<T> {
         }
     }
 }
-impl<T: AlgebraicFloatTrait> std::ops::Mul for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::ops::Mul for Algebraic<T> {
     type Output = Self;
     fn mul(self, rhs: Self) -> Self::Output {
         Self::Output {
@@ -144,7 +151,7 @@ impl<T: AlgebraicFloatTrait> std::ops::Mul for Algebraic<T> {
         }
     }
 }
-impl<T: AlgebraicFloatTrait> std::ops::Div for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::ops::Div for Algebraic<T> {
     type Output = Self;
     fn div(self, rhs: Self) -> Self::Output {
         Self::Output {
@@ -152,7 +159,7 @@ impl<T: AlgebraicFloatTrait> std::ops::Div for Algebraic<T> {
         }
     }
 }
-impl<T: AlgebraicFloatTrait> std::ops::Rem for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::ops::Rem for Algebraic<T> {
     type Output = Self;
     fn rem(self, rhs: Self) -> Self::Output {
         Self::Output {
@@ -160,12 +167,12 @@ impl<T: AlgebraicFloatTrait> std::ops::Rem for Algebraic<T> {
         }
     }
 }
-impl<T: AlgebraicFloatTrait> std::iter::Sum for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::iter::Sum for Algebraic<T> {
     fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::zero(), |acc, x| acc + x)
     }
 }
-impl<T: AlgebraicFloatTrait> std::iter::Product for Algebraic<T> {
+impl<T: AlgebraicFloatTrait + Sized + Clone> std::iter::Product for Algebraic<T> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::one(), |acc, x| acc * x)
     }
@@ -287,5 +294,15 @@ mod tests {
         let result: Algebraic<f64> = v.into_iter().product();
         let result_f64: f64 = result.into();
         assert_eq!(result_f64, 16.0);
+    }
+
+    #[test]
+    fn iter_clone() {
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(8.0);
+        let v = vec![b1, b2];
+        let result: Algebraic<f64> = v.clone().into_iter().last().unwrap();
+        let result_f64: f64 = result.into();
+        assert_eq!(result_f64, 8.0);
     }
 }
