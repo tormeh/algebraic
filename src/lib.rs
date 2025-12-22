@@ -112,6 +112,15 @@ pub struct Algebraic<T: AlgebraicFloatTrait + Sized + Clone> {
     value: T,
 }
 
+#[allow(non_camel_case_types)]
+pub type af16 = Algebraic<f16>;
+#[allow(non_camel_case_types)]
+pub type af32 = Algebraic<f32>;
+#[allow(non_camel_case_types)]
+pub type af64 = Algebraic<f64>;
+#[allow(non_camel_case_types)]
+pub type af128 = Algebraic<f128>;
+
 impl<T: AlgebraicFloatTrait + Sized + Clone> Algebraic<T> {
     fn zero() -> Self {
         Self { value: T::zero() }
