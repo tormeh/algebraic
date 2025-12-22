@@ -29,8 +29,8 @@ mod tests {
 
     #[test]
     fn test_mul() {
-        let result_a = 2.0 * 2.0;
-        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let result_a = 4.0 * 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(4.0);
         let b2: Algebraic<f64> = Algebraic::from(2.0);
         let result_b: Algebraic<f64> = b1 * b2;
 
@@ -39,8 +39,8 @@ mod tests {
 
     #[test]
     fn test_div() {
-        let result_a = 2.0 / 2.0;
-        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let result_a = 4.0 / 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(4.0);
         let b2: Algebraic<f64> = Algebraic::from(2.0);
         let result_b: Algebraic<f64> = b1 / b2;
 
@@ -49,8 +49,8 @@ mod tests {
 
     #[test]
     fn test_rem() {
-        let result_a = 2.0 % 2.0;
-        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let result_a = 8.0 % 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
         let b2: Algebraic<f64> = Algebraic::from(2.0);
         let result_b: Algebraic<f64> = b1 % b2;
 
