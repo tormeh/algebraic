@@ -121,4 +121,45 @@ mod tests {
         assert_eq!(3.0_f64, a64.into());
         assert_eq!(4.0_f128, a128.into());
     }
+
+    fn example_vec() -> Vec<af64> {
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(8.0);
+        let b3: Algebraic<f64> = Algebraic::from(5.5);
+        let b4: Algebraic<f64> = Algebraic::from(31.0);
+        let v = vec![b1, b2, b3, b4];
+        v
+    }
+
+    #[test]
+    fn test_iter_sum() {
+        let v = example_vec();
+        let sum: Algebraic<f64> = v.clone().iter().sum();
+        let sum_f64: f64 = sum.into();
+        assert_eq!(sum_f64, 46.5);
+    }
+
+    #[test]
+    fn test_iter_sum_into() {
+        let v = example_vec();
+        let sum: Algebraic<f64> = v.clone().into_iter().sum();
+        let sum_f64: f64 = sum.into();
+        assert_eq!(sum_f64, 46.5);
+    }
+
+    #[test]
+    fn test_iter_product() {
+        let v = example_vec();
+        let product: Algebraic<f64> = v.clone().iter().product();
+        let product_f64: f64 = product.into();
+        assert_eq!(product_f64, 5720.0);
+    }
+
+    #[test]
+    fn test_iter_product_into() {
+        let v = example_vec();
+        let product: Algebraic<f64> = v.clone().into_iter().product();
+        let product_f64: f64 = product.into();
+        assert_eq!(product_f64, 5720.0);
+    }
 }
