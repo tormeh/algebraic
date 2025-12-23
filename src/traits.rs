@@ -1,5 +1,5 @@
 /// Trait defining algebraic operations for floating-point types
-pub trait AlgebraicFloatTrait {
+pub trait AlgebraicFloatTrait: Copy + Clone {
     /// Perform algebraic addition
     fn algebraic_add(self, rhs: Self) -> Self;
 

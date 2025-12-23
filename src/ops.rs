@@ -3,7 +3,7 @@ use crate::traits::AlgebraicFloatTrait;
 use std::iter::{Product, Sum};
 use std::ops::{Add, Div, Mul, Rem, Sub};
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Add for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Add for Algebraic<T> {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
@@ -13,7 +13,7 @@ impl<T: AlgebraicFloatTrait + Sized + Clone> Add for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Sub for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Sub for Algebraic<T> {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
@@ -23,7 +23,7 @@ impl<T: AlgebraicFloatTrait + Sized + Clone> Sub for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Mul for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Mul for Algebraic<T> {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
@@ -33,7 +33,7 @@ impl<T: AlgebraicFloatTrait + Sized + Clone> Mul for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Div for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Div for Algebraic<T> {
     type Output = Self;
 
     fn div(self, rhs: Self) -> Self::Output {
@@ -43,7 +43,7 @@ impl<T: AlgebraicFloatTrait + Sized + Clone> Div for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Rem for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Rem for Algebraic<T> {
     type Output = Self;
 
     fn rem(self, rhs: Self) -> Self::Output {
@@ -53,13 +53,13 @@ impl<T: AlgebraicFloatTrait + Sized + Clone> Rem for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Sum for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Sum for Algebraic<T> {
     fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::zero(), |acc, x| acc + x)
     }
 }
 
-impl<T: AlgebraicFloatTrait + Sized + Clone> Product for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Product for Algebraic<T> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::one(), |acc, x| acc * x)
     }
