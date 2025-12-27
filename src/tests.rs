@@ -162,4 +162,218 @@ mod tests {
         let product_f64: f64 = product.into();
         assert_eq!(product_f64, 2728.0);
     }
+
+    #[test]
+    fn test_add_ref() {
+        let result_a = 2.0 + 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 + &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_sub_ref() {
+        let result_a = 5.0 - 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(5.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = &b1 - &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_mul_ref() {
+        let result_a = 4.0 * 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(4.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 * &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_div_ref() {
+        let result_a = 8.0 / 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 / &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_add_mixed() {
+        let result_a = 2.0 + 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 + &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_sub_mixed() {
+        let result_a = 5.0 - 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(5.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = b1 - &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_mul_mixed() {
+        let result_a = 4.0 * 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(4.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 * &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_div_mixed() {
+        let result_a = 8.0 / 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = b1 / &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_all_operation_combinations() {
+        let a = Algebraic::from(10.0_f64);
+        let b = Algebraic::from(5.0_f64);
+
+        // Test all combinations for addition
+        let r1 = Algebraic::from(10.0) + Algebraic::from(5.0); // owned + owned
+        let r2 = &a + &b; // ref + ref
+        let r3 = Algebraic::from(10.0) + &b; // owned + ref
+        let r4 = &a + Algebraic::from(5.0); // ref + owned
+
+        assert_eq!(15.0_f64, r1.into());
+        assert_eq!(15.0_f64, r2.into());
+        assert_eq!(15.0_f64, r3.into());
+        assert_eq!(15.0_f64, r4.into());
+
+        // Test all combinations for subtraction
+        let r1 = Algebraic::from(10.0) - Algebraic::from(5.0); // owned - owned
+        let r2 = &a - &b; // ref - ref
+        let r3 = Algebraic::from(10.0) - &b; // owned - ref
+        let r4 = &a - Algebraic::from(5.0); // ref - owned
+
+        assert_eq!(5.0_f64, r1.into());
+        assert_eq!(5.0_f64, r2.into());
+        assert_eq!(5.0_f64, r3.into());
+        assert_eq!(5.0_f64, r4.into());
+
+        // Test all combinations for multiplication
+        let r1 = Algebraic::from(10.0) * Algebraic::from(5.0); // owned * owned
+        let r2 = &a * &b; // ref * ref
+        let r3 = Algebraic::from(10.0) * &b; // owned * ref
+        let r4 = &a * Algebraic::from(5.0); // ref * owned
+
+        assert_eq!(50.0_f64, r1.into());
+        assert_eq!(50.0_f64, r2.into());
+        assert_eq!(50.0_f64, r3.into());
+        assert_eq!(50.0_f64, r4.into());
+
+        // Test all combinations for division
+        let r1 = Algebraic::from(10.0) / Algebraic::from(5.0); // owned / owned
+        let r2 = &a / &b; // ref / ref
+        let r3 = Algebraic::from(10.0) / &b; // owned / ref
+        let r4 = &a / Algebraic::from(5.0); // ref / owned
+
+        assert_eq!(2.0_f64, r1.into());
+        assert_eq!(2.0_f64, r2.into());
+        assert_eq!(2.0_f64, r3.into());
+        assert_eq!(2.0_f64, r4.into());
+
+        // Test all combinations for remainder
+        let c = Algebraic::from(13.0_f64);
+        let d = Algebraic::from(5.0_f64);
+
+        let r1 = Algebraic::from(13.0) % Algebraic::from(5.0); // owned % owned
+        let r2 = &c % &d; // ref % ref
+        let r3 = Algebraic::from(13.0) % &d; // owned % ref
+        let r4 = &c % Algebraic::from(5.0); // ref % owned
+
+        assert_eq!(3.0_f64, r1.into());
+        assert_eq!(3.0_f64, r2.into());
+        assert_eq!(3.0_f64, r3.into());
+        assert_eq!(3.0_f64, r4.into());
+    }
+
+    #[test]
+    fn test_add_mixed_ref_owned() {
+        let result_a = 2.0 + 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(2.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 + b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_sub_mixed_ref_owned() {
+        let result_a = 5.0 - 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(5.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = &b1 - b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_mul_mixed_ref_owned() {
+        let result_a = 4.0 * 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(4.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 * b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_div_mixed_ref_owned() {
+        let result_a = 8.0 / 2.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(2.0);
+        let result_b: Algebraic<f64> = &b1 / b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_rem_ref() {
+        let result_a = 8.0 % 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = &b1 % &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_rem_mixed() {
+        let result_a = 8.0 % 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = b1 % &b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
+
+    #[test]
+    fn test_rem_mixed_ref_owned() {
+        let result_a = 8.0 % 3.0;
+        let b1: Algebraic<f64> = Algebraic::from(8.0);
+        let b2: Algebraic<f64> = Algebraic::from(3.0);
+        let result_b: Algebraic<f64> = &b1 % b2;
+
+        assert_eq!(result_a, result_b.into());
+    }
 }
