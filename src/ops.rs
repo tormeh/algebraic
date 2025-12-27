@@ -59,8 +59,20 @@ impl<T: AlgebraicFloatTrait> Sum for Algebraic<T> {
     }
 }
 
+impl<'a, T: AlgebraicFloatTrait> Sum<&'a Algebraic<T>> for Algebraic<T> {
+    fn sum<I: Iterator<Item = &'a Self>>(iter: I) -> Algebraic<T> {
+        iter.fold(Algebraic::zero(), |acc: Algebraic<T>, x| acc + *x)
+    }
+}
+
 impl<T: AlgebraicFloatTrait> Product for Algebraic<T> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::one(), |acc, x| acc * x)
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> Product<&'a Algebraic<T>> for Algebraic<T> {
+    fn product<I: Iterator<Item = &'a Self>>(iter: I) -> Algebraic<T> {
+        iter.fold(Algebraic::one(), |acc: Algebraic<T>, x| acc * *x)
     }
 }

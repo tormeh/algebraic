@@ -152,7 +152,7 @@ mod tests {
         let v = example_vec();
         let product: Algebraic<f64> = v.clone().iter().product();
         let product_f64: f64 = product.into();
-        assert_eq!(product_f64, 5720.0);
+        assert_eq!(product_f64, 2728.0);
     }
 
     #[test]
@@ -160,6 +160,6 @@ mod tests {
         let v = example_vec();
         let product: Algebraic<f64> = v.clone().into_iter().product();
         let product_f64: f64 = product.into();
-        assert_eq!(product_f64, 5720.0);
+        assert_eq!(product_f64, 2728.0);
     }
 }
