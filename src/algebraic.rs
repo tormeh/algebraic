@@ -1,4 +1,5 @@
 use crate::traits::AlgebraicFloatTrait;
+use std::fmt::{Display, Formatter, Result};
 
 /// A wrapper struct for algebraic floating-point operations
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -25,5 +26,25 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
     /// Get the inner value
     pub fn value(self) -> T {
         self.value
+    }
+}
+
+// Display implementations
+
+impl Display for Algebraic<f16> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        write!(f, "{}", self.value)
+    }
+}
+
+impl Display for Algebraic<f32> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        write!(f, "{}", self.value)
+    }
+}
+
+impl Display for Algebraic<f64> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        write!(f, "{}", self.value)
     }
 }
