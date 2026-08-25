@@ -26,3 +26,7 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
 | *(None)* | `f32` (`af32`), `f64` (`af64`) | **Stable (1.98+)** |
 | `f16` | `f16` (`af16`) | **Nightly** |
 | `f128` | `f128` (`af128`) | **Nightly** |
+
+## Disclaimer
+
+I'm just a guy. Should you use this for serious stuff? Maybe, maybe not.
