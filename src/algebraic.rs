@@ -32,20 +32,7 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
 }
 
 // Display implementations
-#[cfg(feature = "f16")]
-impl Display for Algebraic<f16> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        write!(f, "{}", self.value)
-    }
-}
-
-impl Display for Algebraic<f32> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        write!(f, "{}", self.value)
-    }
-}
-
-impl Display for Algebraic<f64> {
+impl<T: AlgebraicFloatTrait + Display> Display for Algebraic<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", self.value)
     }
