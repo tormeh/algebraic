@@ -3,6 +3,7 @@
 use crate::algebraic::Algebraic;
 
 /// 16-bit algebraic floating-point type
+#[cfg(feature = "f16")]
 #[allow(non_camel_case_types)]
 pub type af16 = Algebraic<f16>;
 
@@ -15,5 +16,6 @@ pub type af32 = Algebraic<f32>;
 pub type af64 = Algebraic<f64>;
 
 /// 128-bit algebraic floating-point type
+#[cfg(feature = "f128")]
 #[allow(non_camel_case_types)]
 pub type af128 = Algebraic<f128>;

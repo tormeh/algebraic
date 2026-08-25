@@ -1,5 +1,7 @@
+#[cfg(feature = "f128")]
 use crate::traits::AlgebraicFloatTrait;
 
+#[cfg(feature = "f128")]
 impl AlgebraicFloatTrait for f128 {
     fn algebraic_add(self, rhs: Self) -> Self {
         Self::algebraic_add(self, rhs)

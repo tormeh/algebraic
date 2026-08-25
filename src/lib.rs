@@ -1,6 +1,5 @@
-#![feature(f16)]
-#![feature(f128)]
-#![feature(float_algebraic)]
+#![cfg_attr(feature = "f16", feature(f16))]
+#![cfg_attr(feature = "f128", feature(f128))]
 
 //! Algebraic floating-point operations library
 //!
@@ -40,4 +39,8 @@ mod tests;
 // Public exports
 pub use algebraic::Algebraic;
 pub use traits::AlgebraicFloatTrait;
-pub use types::{af16, af32, af64, af128};
+#[cfg(feature = "f16")]
+pub use types::af16;
+#[cfg(feature = "f128")]
+pub use types::af128;
+pub use types::{af32, af64};

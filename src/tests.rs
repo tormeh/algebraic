@@ -111,14 +111,18 @@ mod tests {
 
     #[test]
     fn test_type_aliases() {
+        #[cfg(feature = "f16")]
         let a16: af16 = Algebraic::from(1.0_f16);
         let a32: af32 = Algebraic::from(2.0_f32);
         let a64: af64 = Algebraic::from(3.0_f64);
+        #[cfg(feature = "f128")]
         let a128: af128 = Algebraic::from(4.0_f128);
 
+        #[cfg(feature = "f16")]
         assert_eq!(1.0_f16, a16.into());
         assert_eq!(2.0_f32, a32.into());
         assert_eq!(3.0_f64, a64.into());
+        #[cfg(feature = "f128")]
         assert_eq!(4.0_f128, a128.into());
     }
 
@@ -424,6 +428,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f16")]
     fn test_add_f16_primitive() {
         let a: Algebraic<f16> = Algebraic::from(10.0_f16);
         let result = a + 5.0_f16;
@@ -431,6 +436,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f16")]
     fn test_sub_f16_primitive() {
         let a: Algebraic<f16> = Algebraic::from(10.0_f16);
         let result = a - 5.0_f16;
@@ -438,6 +444,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f16")]
     fn test_mul_f16_primitive() {
         let a: Algebraic<f16> = Algebraic::from(10.0_f16);
         let result = a * 5.0_f16;
@@ -445,6 +452,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f16")]
     fn test_div_f16_primitive() {
         let a: Algebraic<f16> = Algebraic::from(10.0_f16);
         let result = a / 5.0_f16;
@@ -452,6 +460,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f16")]
     fn test_rem_f16_primitive() {
         let a: Algebraic<f16> = Algebraic::from(13.0_f16);
         let result = a % 5.0_f16;
@@ -494,6 +503,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f128")]
     fn test_add_f128_primitive() {
         let a: Algebraic<f128> = Algebraic::from(10.0_f128);
         let result = a + 5.0_f128;
@@ -501,6 +511,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f128")]
     fn test_sub_f128_primitive() {
         let a: Algebraic<f128> = Algebraic::from(10.0_f128);
         let result = a - 5.0_f128;
@@ -508,6 +519,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f128")]
     fn test_mul_f128_primitive() {
         let a: Algebraic<f128> = Algebraic::from(10.0_f128);
         let result = a * 5.0_f128;
@@ -515,6 +527,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f128")]
     fn test_div_f128_primitive() {
         let a: Algebraic<f128> = Algebraic::from(10.0_f128);
         let result = a / 5.0_f128;
@@ -522,6 +535,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "f128")]
     fn test_rem_f128_primitive() {
         let a: Algebraic<f128> = Algebraic::from(13.0_f128);
         let result = a % 5.0_f128;
@@ -531,11 +545,14 @@ mod tests {
     #[test]
     fn test_all_primitive_types_operations() {
         // Test f16
-        let a16 = Algebraic::from(20.0_f16);
-        assert_eq!(25.0_f16, (a16 + 5.0_f16).into());
-        assert_eq!(15.0_f16, (a16 - 5.0_f16).into());
-        assert_eq!(100.0_f16, (a16 * 5.0_f16).into());
-        assert_eq!(4.0_f16, (a16 / 5.0_f16).into());
+        #[cfg(feature = "f16")]
+        {
+            let a16 = Algebraic::from(20.0_f16);
+            assert_eq!(25.0_f16, (a16 + 5.0_f16).into());
+            assert_eq!(15.0_f16, (a16 - 5.0_f16).into());
+            assert_eq!(100.0_f16, (a16 * 5.0_f16).into());
+            assert_eq!(4.0_f16, (a16 / 5.0_f16).into());
+        }
 
         // Test f32
         let a32 = Algebraic::from(20.0_f32);
@@ -552,10 +569,13 @@ mod tests {
         assert_eq!(4.0_f64, (a64 / 5.0_f64).into());
 
         // Test f128
-        let a128 = Algebraic::from(20.0_f128);
-        assert_eq!(25.0_f128, (a128 + 5.0_f128).into());
-        assert_eq!(15.0_f128, (a128 - 5.0_f128).into());
-        assert_eq!(100.0_f128, (a128 * 5.0_f128).into());
-        assert_eq!(4.0_f128, (a128 / 5.0_f128).into());
+        #[cfg(feature = "f128")]
+        {
+            let a128 = Algebraic::from(20.0_f128);
+            assert_eq!(25.0_f128, (a128 + 5.0_f128).into());
+            assert_eq!(15.0_f128, (a128 - 5.0_f128).into());
+            assert_eq!(100.0_f128, (a128 * 5.0_f128).into());
+            assert_eq!(4.0_f128, (a128 / 5.0_f128).into());
+        }
     }
 }

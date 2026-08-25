@@ -30,7 +30,7 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
 }
 
 // Display implementations
-
+#[cfg(feature = "f16")]
 impl Display for Algebraic<f16> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", self.value)
