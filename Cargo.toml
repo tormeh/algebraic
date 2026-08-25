@@ -8,3 +8,9 @@ edition = "2024"
 [features]
 f16 = []
 f128 = []
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+nursery = "deny"
+indexing_slicing = "deny"
