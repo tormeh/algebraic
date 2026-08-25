@@ -2,29 +2,31 @@ use crate::traits::AlgebraicFloatTrait;
 use std::fmt::{Display, Formatter, Result};
 
 /// A wrapper struct for algebraic floating-point operations
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Algebraic<T: AlgebraicFloatTrait> {
     pub(crate) value: T,
 }
 
 impl<T: AlgebraicFloatTrait> Algebraic<T> {
     /// Create a new Algebraic instance with the given value
-    pub fn new(value: T) -> Self {
+    pub const fn new(value: T) -> Self {
         Self { value }
     }
 
     /// Return the additive identity (zero)
+    #[must_use]
     pub fn zero() -> Self {
         Self { value: T::zero() }
     }
 
     /// Return the multiplicative identity (one)
+    #[must_use]
     pub fn one() -> Self {
         Self { value: T::one() }
     }
 
     /// Get the inner value
-    pub fn value(self) -> T {
+    pub const fn value(self) -> T {
         self.value
     }
 }

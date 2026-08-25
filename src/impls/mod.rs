@@ -1,4 +1,4 @@
-//! Implementation modules for AlgebraicFloatTrait on different floating-point types
+//! Implementation modules for `AlgebraicFloatTrait` on different floating-point types
 
 pub mod f16;
 pub mod f32;

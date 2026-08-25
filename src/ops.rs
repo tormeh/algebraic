@@ -53,7 +53,7 @@ impl<T: AlgebraicFloatTrait> Rem for Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Add for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Add for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn add(self, rhs: Self) -> Self::Output {
@@ -63,7 +63,7 @@ impl<'a, T: AlgebraicFloatTrait> Add for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Sub for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Sub for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn sub(self, rhs: Self) -> Self::Output {
@@ -73,7 +73,7 @@ impl<'a, T: AlgebraicFloatTrait> Sub for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Mul for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Mul for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn mul(self, rhs: Self) -> Self::Output {
@@ -83,7 +83,7 @@ impl<'a, T: AlgebraicFloatTrait> Mul for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Div for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Div for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn div(self, rhs: Self) -> Self::Output {
@@ -93,7 +93,7 @@ impl<'a, T: AlgebraicFloatTrait> Div for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Rem for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Rem for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn rem(self, rhs: Self) -> Self::Output {
@@ -109,9 +109,9 @@ impl<T: AlgebraicFloatTrait> Sum for Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Sum<&'a Algebraic<T>> for Algebraic<T> {
-    fn sum<I: Iterator<Item = &'a Self>>(iter: I) -> Algebraic<T> {
-        iter.fold(Algebraic::zero(), |acc: Algebraic<T>, x| acc + *x)
+impl<'a, T: AlgebraicFloatTrait> Sum<&'a Self> for Algebraic<T> {
+    fn sum<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |acc: Self, x| acc + *x)
     }
 }
 
@@ -121,65 +121,65 @@ impl<T: AlgebraicFloatTrait> Product for Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Product<&'a Algebraic<T>> for Algebraic<T> {
-    fn product<I: Iterator<Item = &'a Self>>(iter: I) -> Algebraic<T> {
-        iter.fold(Algebraic::one(), |acc: Algebraic<T>, x| acc * *x)
+impl<'a, T: AlgebraicFloatTrait> Product<&'a Self> for Algebraic<T> {
+    fn product<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
+        iter.fold(Self::one(), |acc: Self, x| acc * *x)
     }
 }
 
 // Mixed implementations: Algebraic<T> op &Algebraic<T>
 
-impl<'a, T: AlgebraicFloatTrait> Add<&'a Algebraic<T>> for Algebraic<T> {
-    type Output = Algebraic<T>;
+impl<'a, T: AlgebraicFloatTrait> Add<&'a Self> for Algebraic<T> {
+    type Output = Self;
 
-    fn add(self, rhs: &'a Algebraic<T>) -> Self::Output {
-        Algebraic {
+    fn add(self, rhs: &'a Self) -> Self::Output {
+        Self {
             value: self.value.algebraic_add(rhs.value),
         }
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Sub<&'a Algebraic<T>> for Algebraic<T> {
-    type Output = Algebraic<T>;
+impl<'a, T: AlgebraicFloatTrait> Sub<&'a Self> for Algebraic<T> {
+    type Output = Self;
 
-    fn sub(self, rhs: &'a Algebraic<T>) -> Self::Output {
-        Algebraic {
+    fn sub(self, rhs: &'a Self) -> Self::Output {
+        Self {
             value: self.value.algebraic_sub(rhs.value),
         }
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Mul<&'a Algebraic<T>> for Algebraic<T> {
-    type Output = Algebraic<T>;
+impl<'a, T: AlgebraicFloatTrait> Mul<&'a Self> for Algebraic<T> {
+    type Output = Self;
 
-    fn mul(self, rhs: &'a Algebraic<T>) -> Self::Output {
-        Algebraic {
+    fn mul(self, rhs: &'a Self) -> Self::Output {
+        Self {
             value: self.value.algebraic_mul(rhs.value),
         }
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Div<&'a Algebraic<T>> for Algebraic<T> {
-    type Output = Algebraic<T>;
+impl<'a, T: AlgebraicFloatTrait> Div<&'a Self> for Algebraic<T> {
+    type Output = Self;
 
-    fn div(self, rhs: &'a Algebraic<T>) -> Self::Output {
-        Algebraic {
+    fn div(self, rhs: &'a Self) -> Self::Output {
+        Self {
             value: self.value.algebraic_div(rhs.value),
         }
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Rem<&'a Algebraic<T>> for Algebraic<T> {
-    type Output = Algebraic<T>;
+impl<'a, T: AlgebraicFloatTrait> Rem<&'a Self> for Algebraic<T> {
+    type Output = Self;
 
-    fn rem(self, rhs: &'a Algebraic<T>) -> Self::Output {
-        Algebraic {
+    fn rem(self, rhs: &'a Self) -> Self::Output {
+        Self {
             value: self.value.algebraic_rem(rhs.value),
         }
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Add<Algebraic<T>> for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Add<Algebraic<T>> for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn add(self, rhs: Algebraic<T>) -> Self::Output {
@@ -189,7 +189,7 @@ impl<'a, T: AlgebraicFloatTrait> Add<Algebraic<T>> for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Sub<Algebraic<T>> for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Sub<Algebraic<T>> for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn sub(self, rhs: Algebraic<T>) -> Self::Output {
@@ -199,7 +199,7 @@ impl<'a, T: AlgebraicFloatTrait> Sub<Algebraic<T>> for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Mul<Algebraic<T>> for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Mul<Algebraic<T>> for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn mul(self, rhs: Algebraic<T>) -> Self::Output {
@@ -209,7 +209,7 @@ impl<'a, T: AlgebraicFloatTrait> Mul<Algebraic<T>> for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Div<Algebraic<T>> for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Div<Algebraic<T>> for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn div(self, rhs: Algebraic<T>) -> Self::Output {
@@ -219,7 +219,7 @@ impl<'a, T: AlgebraicFloatTrait> Div<Algebraic<T>> for &'a Algebraic<T> {
     }
 }
 
-impl<'a, T: AlgebraicFloatTrait> Rem<Algebraic<T>> for &'a Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Rem<Algebraic<T>> for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     fn rem(self, rhs: Algebraic<T>) -> Self::Output {
@@ -230,50 +230,50 @@ impl<'a, T: AlgebraicFloatTrait> Rem<Algebraic<T>> for &'a Algebraic<T> {
 }
 
 impl<T: AlgebraicFloatTrait> Add<T> for Algebraic<T> {
-    type Output = Algebraic<T>;
+    type Output = Self;
 
     fn add(self, rhs: T) -> Self::Output {
-        Algebraic {
+        Self {
             value: self.value.algebraic_add(rhs),
         }
     }
 }
 
 impl<T: AlgebraicFloatTrait> Sub<T> for Algebraic<T> {
-    type Output = Algebraic<T>;
+    type Output = Self;
 
     fn sub(self, rhs: T) -> Self::Output {
-        Algebraic {
+        Self {
             value: self.value.algebraic_sub(rhs),
         }
     }
 }
 
 impl<T: AlgebraicFloatTrait> Mul<T> for Algebraic<T> {
-    type Output = Algebraic<T>;
+    type Output = Self;
 
     fn mul(self, rhs: T) -> Self::Output {
-        Algebraic {
+        Self {
             value: self.value.algebraic_mul(rhs),
         }
     }
 }
 
 impl<T: AlgebraicFloatTrait> Div<T> for Algebraic<T> {
-    type Output = Algebraic<T>;
+    type Output = Self;
 
     fn div(self, rhs: T) -> Self::Output {
-        Algebraic {
+        Self {
             value: self.value.algebraic_div(rhs),
         }
     }
 }
 
 impl<T: AlgebraicFloatTrait> Rem<T> for Algebraic<T> {
-    type Output = Algebraic<T>;
+    type Output = Self;
 
     fn rem(self, rhs: T) -> Self::Output {
-        Algebraic {
+        Self {
             value: self.value.algebraic_rem(rhs),
         }
     }
