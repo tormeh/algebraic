@@ -8,6 +8,62 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_add_assign() {
+        let mut a = af64::new(2.0);
+        let b = af64::new(3.0);
+        a += b;
+        assert_eq!(a.value(), 5.0);
+
+        a += 5.0;
+        assert_eq!(a.value(), 10.0);
+    }
+
+    #[test]
+    fn test_sub_assign() {
+        let mut a = af64::new(10.0);
+        let b = af64::new(3.0);
+        a -= b;
+        assert_eq!(a.value(), 7.0);
+
+        a -= 2.0;
+        assert_eq!(a.value(), 5.0);
+    }
+
+    #[test]
+    fn test_mul_assign() {
+        let mut a = af64::new(2.0);
+        let b = af64::new(3.0);
+        a *= b;
+        assert_eq!(a.value(), 6.0);
+
+        a *= 2.0;
+        assert_eq!(a.value(), 12.0);
+    }
+
+    #[test]
+    fn test_div_assign() {
+        let mut a = af64::new(12.0);
+        let b = af64::new(3.0);
+        a /= b;
+        assert_eq!(a.value(), 4.0);
+
+        a /= 2.0;
+        assert_eq!(a.value(), 2.0);
+    }
+
+    #[test]
+    fn test_rem_assign() {
+        let mut a = af64::new(10.0);
+        let b = af64::new(3.0);
+        a %= b;
+        assert_eq!(a.value(), 1.0);
+
+        let mut c = af64::new(10.0);
+        c %= 4.0;
+        assert_eq!(c.value(), 2.0);
+    }
+
+    #[test]
     fn test_add() {
         let result_a = 2.0 + 2.0;
         let b1: Algebraic<f64> = Algebraic::from(2.0);

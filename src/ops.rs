@@ -1,7 +1,67 @@
 use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
 use std::iter::{Product, Sum};
-use std::ops::{Add, Div, Mul, Rem, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
+
+impl<T: AlgebraicFloatTrait> AddAssign for Algebraic<T> {
+    fn add_assign(&mut self, rhs: Self) {
+        self.value = self.value.algebraic_add(rhs.value);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> SubAssign for Algebraic<T> {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.value = self.value.algebraic_sub(rhs.value);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> MulAssign for Algebraic<T> {
+    fn mul_assign(&mut self, rhs: Self) {
+        self.value = self.value.algebraic_mul(rhs.value);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> DivAssign for Algebraic<T> {
+    fn div_assign(&mut self, rhs: Self) {
+        self.value = self.value.algebraic_div(rhs.value);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> RemAssign for Algebraic<T> {
+    fn rem_assign(&mut self, rhs: Self) {
+        self.value = self.value.algebraic_rem(rhs.value);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> AddAssign<T> for Algebraic<T> {
+    fn add_assign(&mut self, rhs: T) {
+        self.value = self.value.algebraic_add(rhs);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> SubAssign<T> for Algebraic<T> {
+    fn sub_assign(&mut self, rhs: T) {
+        self.value = self.value.algebraic_sub(rhs);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> MulAssign<T> for Algebraic<T> {
+    fn mul_assign(&mut self, rhs: T) {
+        self.value = self.value.algebraic_mul(rhs);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> DivAssign<T> for Algebraic<T> {
+    fn div_assign(&mut self, rhs: T) {
+        self.value = self.value.algebraic_div(rhs);
+    }
+}
+
+impl<T: AlgebraicFloatTrait> RemAssign<T> for Algebraic<T> {
+    fn rem_assign(&mut self, rhs: T) {
+        self.value = self.value.algebraic_rem(rhs);
+    }
+}
 
 impl<T: AlgebraicFloatTrait> Add for Algebraic<T> {
     type Output = Self;
