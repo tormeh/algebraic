@@ -1,27 +1,25 @@
 #![cfg_attr(feature = "f16", feature(f16))]
 #![cfg_attr(feature = "f128", feature(f128))]
+#![warn(missing_docs)]
 
-//! Algebraic floating-point operations library
+//! # Algebraic Floating-Point Operations Library
 //!
-//! This library provides a wrapper type `Algebraic<T>` for floating-point types
-//! that supports algebraic operations using Rust's experimental algebraic float methods.
+//! `algebraic` provides ergonomic [`Algebraic<T>`] wrappers for Rust's primitive floating-point types.
+//! It enables algebraic reordering optimizations (analogous to the compiler's `-ffast-math` or
+//! `-funsafe-math-optimizations` flags) on standard arithmetic operations by leveraging Rust's
+//! experimental algebraic float intrinsics.
 //!
-//! # Features
+//! Ideally these should work like normal float types, but faster and less deterministic.
 //!
-//! - Support for f16, f32, f64, and f128 floating-point types
-//! - Algebraic operations (addition, subtraction, multiplication, division, remainder)
-//! - Iterator support (Sum, Product)
-//! - Convenient type aliases (af16, af32, af64, af128)
+//! ## Features & Toolchain Requirements
 //!
-//! # Example
+//! - **f32 and f64**: Supported on stable Rust (version 1.98+).
+//! - **f16 and f128** (Feature-gated): Require a nightly toolchain and the unstable features `f16` / `f128`.
 //!
-//! ```
-//! use algebraic::{Algebraic, af64};
-//!
-//! let a: af64 = Algebraic::from(2.0);
-//! let b: af64 = Algebraic::from(3.0);
-//! let result = a + b;
-//! assert_eq!(5.0, result.into());
+//! To use the unstable types, add this to your `Cargo.toml`:
+//! ```toml
+//! [dependencies]
+//! algebraic = { version = "*", features = ["f16", "f128"] }
 //! ```
 
 // Core modules
