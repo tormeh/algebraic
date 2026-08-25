@@ -2,6 +2,9 @@
 name = "algebraic"
 version = "0.1.0"
 edition = "2024"
+description = "Ergonomic algebraic (auto-vectorizable) floating-point wrapper types for Rust"
+license = "MPL-2.0"
+repository = "https://github.com/tormeh/algebraic"
 
 [dependencies]
 
