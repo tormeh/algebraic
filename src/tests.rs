@@ -634,4 +634,25 @@ mod tests {
             assert_eq!(4.0_f128, (a128 / 5.0_f128).into());
         }
     }
+
+    #[test]
+    fn test_primitive_sum_product() {
+        let floats = vec![2.0_f64, 8.0_f64, 5.5_f64, 31.0_f64];
+
+        // Summing owned f64
+        let sum_owned: Algebraic<f64> = floats.clone().into_iter().sum();
+        assert_eq!(46.5, sum_owned.into());
+
+        // Summing borrowed &f64
+        let sum_borrowed: Algebraic<f64> = floats.iter().sum();
+        assert_eq!(46.5, sum_borrowed.into());
+
+        // Multiplying owned f64
+        let product_owned: Algebraic<f64> = floats.clone().into_iter().product();
+        assert_eq!(2728.0, product_owned.into());
+
+        // Multiplying borrowed &f64
+        let product_borrowed: Algebraic<f64> = floats.iter().product();
+        assert_eq!(2728.0, product_borrowed.into());
+    }
 }

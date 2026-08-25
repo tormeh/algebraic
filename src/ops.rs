@@ -175,6 +175,18 @@ impl<'a, T: AlgebraicFloatTrait> Sum<&'a Self> for Algebraic<T> {
     }
 }
 
+impl<T: AlgebraicFloatTrait> Sum<T> for Algebraic<T> {
+    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |acc, x| acc + x)
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> Sum<&'a T> for Algebraic<T> {
+    fn sum<I: Iterator<Item = &'a T>>(iter: I) -> Self {
+        iter.fold(Self::zero(), |acc: Self, x| acc + *x)
+    }
+}
+
 impl<T: AlgebraicFloatTrait> Product for Algebraic<T> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::one(), |acc, x| acc * x)
@@ -183,6 +195,18 @@ impl<T: AlgebraicFloatTrait> Product for Algebraic<T> {
 
 impl<'a, T: AlgebraicFloatTrait> Product<&'a Self> for Algebraic<T> {
     fn product<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
+        iter.fold(Self::one(), |acc: Self, x| acc * *x)
+    }
+}
+
+impl<T: AlgebraicFloatTrait> Product<T> for Algebraic<T> {
+    fn product<I: Iterator<Item = T>>(iter: I) -> Self {
+        iter.fold(Self::one(), |acc, x| acc * x)
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> Product<&'a T> for Algebraic<T> {
+    fn product<I: Iterator<Item = &'a T>>(iter: I) -> Self {
         iter.fold(Self::one(), |acc: Self, x| acc * *x)
     }
 }
