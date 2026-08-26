@@ -7,6 +7,7 @@ check-types:
 lint:
     cargo clippy
     cargo +nightly clippy --features "f16,f128"
+    rumdl check --disable MD013
 
 # Apply clippy fixes for stable and nightly (with f16/f128 features)
 fix:
