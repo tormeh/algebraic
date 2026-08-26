@@ -658,4 +658,29 @@ mod tests {
         let product_borrowed: Algebraic<f64> = floats.iter().product();
         assert_eq!(2728.0, product_borrowed.into());
     }
+
+    #[test]
+    fn test_interoperability_traits() {
+        // Test Default
+        let default_val: Algebraic<f64> = Default::default();
+        assert_eq!(default_val.value(), 0.0);
+
+        // Test PartialOrd
+        let a = Algebraic::new(2.0_f64);
+        let b = Algebraic::new(5.0_f64);
+        assert!(a < b);
+        assert!(b > a);
+        assert!(a <= b);
+        assert!(b >= a);
+        assert_eq!(a.partial_cmp(&b), Some(core::cmp::Ordering::Less));
+
+        // Test AsRef
+        let val = Algebraic::new(10.0_f32);
+        assert_eq!(val.as_ref(), &10.0_f32);
+
+        // Test AsMut
+        let mut mut_val = Algebraic::new(10.0_f32);
+        *mut_val.as_mut() = 20.0_f32;
+        assert_eq!(mut_val.value(), 20.0_f32);
+    }
 }
