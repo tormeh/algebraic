@@ -20,3 +20,7 @@ test:
 
 # Run check-types, lint, and test (full validation)
 check: check-types lint test
+
+# Open docs in the browser
+docs:
+    cargo +nightly doc --all-features --open
