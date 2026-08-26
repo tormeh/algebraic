@@ -1,5 +1,6 @@
 #![cfg_attr(feature = "f16", feature(f16))]
 #![cfg_attr(feature = "f128", feature(f128))]
+#![no_std]
 #![warn(missing_docs)]
 
 //! # Algebraic Floating-Point Operations Library

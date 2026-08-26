@@ -6,6 +6,9 @@ use crate::types::*;
 #[cfg(test)]
 mod tests {
     use super::*;
+    extern crate alloc;
+    use alloc::vec;
+    use alloc::vec::Vec;
 
     #[test]
     fn test_add_assign() {

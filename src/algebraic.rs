@@ -1,5 +1,5 @@
 use crate::traits::AlgebraicFloatTrait;
-use std::fmt::{Display, Formatter, Result};
+use core::fmt::{Display, Formatter, Result};
 
 /// A wrapper for float types, which allows for algebraic reordering by the compiler.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -1,7 +1,7 @@
 use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
-use std::iter::{Product, Sum};
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
+use core::iter::{Product, Sum};
+use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Rem, RemAssign, Sub, SubAssign};
 
 impl<T: AlgebraicFloatTrait> AddAssign for Algebraic<T> {
     fn add_assign(&mut self, rhs: Self) {
