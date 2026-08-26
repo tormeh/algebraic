@@ -3,6 +3,7 @@
 use crate::algebraic::Algebraic;
 
 /// This type represents a half-precision float wrapping `f16` with algebraic optimization enabled.
+///
 /// This type alias requires the **`f16`** crate feature to be enabled and requires a nightly
 /// toolchain supporting the unstable `#![feature(f16)]` language feature.
 #[cfg(feature = "f16")]
@@ -18,6 +19,7 @@ pub type af32 = Algebraic<f32>;
 pub type af64 = Algebraic<f64>;
 
 /// This type represents an quadruple-precision float wrapping `f128` with algebraic optimization enabled.
+///
 /// This type alias requires the **`f128`** crate feature to be enabled and requires a nightly
 /// toolchain supporting the unstable `#![feature(f128)]` language feature.
 #[cfg(feature = "f128")]
