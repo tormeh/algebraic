@@ -19,6 +19,29 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
   - Primitive-to-algebraic operations (`af64 + f64`)
 - Full support for `Sum` and `Product` traits, allowing you to sum or multiply standard floating-point iterators directly into an `Algebraic<T>`.
 
+## Example
+
+```rust
+use algebraic::af32;
+
+// Construct algebraic floats using `new` or `From::from`
+let a = af32::new(1.5);
+let b = af32::from(2.0);
+
+// Perform standard arithmetic operations which compile down to algebraic intrinsics,
+// allowing the compiler to aggressively reorder and vectorize.
+let mut c = a * b + af32::new(0.5);
+assert_eq!(c.value(), 3.5);
+
+c += af32::new(1.0);
+assert_eq!(f32::from(c), 4.5);
+
+// Works seamlessly with iterators for operations like sum and product
+let values = [1.0, 2.0, 3.0, 4.0].map(af32::new);
+let sum: af32 = values.into_iter().sum();
+assert_eq!(sum.value(), 10.0);
+```
+
 ## Feature Flags and Requirements
 
 | Feature | Supported Types | Rust Toolchain |
