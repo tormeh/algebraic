@@ -17,6 +17,7 @@ fix:
 test:
     cargo test
     cargo +nightly test --features "f16,f128"
+    cargo test --doc
 
 # Run check-types, lint, and test (full validation)
 check: check-types lint test
