@@ -4,7 +4,12 @@ use crate::algebraic::Algebraic;
 use crate::types::*;
 
 #[cfg(test)]
-#[allow(clippy::float_cmp)]
+#[allow(
+    clippy::float_cmp,
+    clippy::module_inception,
+    clippy::op_ref,
+    clippy::approx_constant
+)]
 mod tests {
     use super::*;
     extern crate alloc;
@@ -139,6 +144,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::redundant_clone)]
     fn test_iter_clone() {
         let b1: Algebraic<f64> = Algebraic::from(2.0);
         let b2: Algebraic<f64> = Algebraic::from(8.0);
@@ -198,7 +204,7 @@ mod tests {
     #[test]
     fn test_iter_sum() {
         let v = example_vec();
-        let sum: Algebraic<f64> = v.clone().iter().sum();
+        let sum: Algebraic<f64> = v.iter().sum();
         let sum_f64: f64 = sum.into();
         assert_eq!(sum_f64, 46.5);
     }
@@ -206,7 +212,7 @@ mod tests {
     #[test]
     fn test_iter_sum_into() {
         let v = example_vec();
-        let sum: Algebraic<f64> = v.clone().into_iter().sum();
+        let sum: Algebraic<f64> = v.into_iter().sum();
         let sum_f64: f64 = sum.into();
         assert_eq!(sum_f64, 46.5);
     }
@@ -214,7 +220,7 @@ mod tests {
     #[test]
     fn test_iter_product() {
         let v = example_vec();
-        let product: Algebraic<f64> = v.clone().iter().product();
+        let product: Algebraic<f64> = v.iter().product();
         let product_f64: f64 = product.into();
         assert_eq!(product_f64, 2728.0);
     }
@@ -222,7 +228,7 @@ mod tests {
     #[test]
     fn test_iter_product_into() {
         let v = example_vec();
-        let product: Algebraic<f64> = v.clone().into_iter().product();
+        let product: Algebraic<f64> = v.into_iter().product();
         let product_f64: f64 = product.into();
         assert_eq!(product_f64, 2728.0);
     }
@@ -936,7 +942,7 @@ mod tests {
     #[test]
     fn test_interoperability_traits() {
         // Test Default
-        let default_val: Algebraic<f64> = Default::default();
+        let default_val: Algebraic<f64> = Algebraic::default();
         assert_eq!(default_val.value(), 0.0);
 
         // Test PartialOrd
