@@ -10,10 +10,12 @@ keywords = ["simd", "numerics", "float"]
 categories = ["hardware-support", "mathematics", "no-std"]
 
 [dependencies]
+serde = { version = "1.0.229", optional = true, default-features = false }
 
 [features]
 f16 = []
 f128 = []
+serde = ["dep:serde"]
 
 [lints.clippy]
 all = "deny"
@@ -23,6 +25,7 @@ indexing_slicing = "deny"
 
 [dev-dependencies]
 criterion = { version = "0.8.2", default-features = false, features = ["html_reports"] }
+serde_test = "1.0.177"
 
 [[bench]]
 name = "arithmetic"

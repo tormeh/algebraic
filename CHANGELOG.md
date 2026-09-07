@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional `serde` support (behind the new `serde` feature flag) with `Serialize` and
+  `Deserialize` implementations for `Algebraic<T>`. `Algebraic<T>` serializes and deserializes
+  exactly as the wrapped primitive value would, and the implementation is `no_std`-compatible.
+
 ## [0.1.2] - 2026-08-26
 
 ### Added
