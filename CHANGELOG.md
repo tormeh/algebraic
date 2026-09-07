@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Operator overloads for supported primitive float types on the left-hand side of
+  `Algebraic<T>` arithmetic, including assignment variants, so expressions like
+  `1.0_f64 + Algebraic::from(2.0_f64)` and `value += Algebraic::from(2.0_f64)` are supported.
+
 ## [0.1.2] - 2026-08-26
 
 ### Added

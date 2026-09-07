@@ -4,6 +4,7 @@ use crate::algebraic::Algebraic;
 use crate::types::*;
 
 #[cfg(test)]
+#[allow(clippy::float_cmp)]
 mod tests {
     use super::*;
     extern crate alloc;
@@ -635,6 +636,279 @@ mod tests {
             assert_eq!(15.0_f128, (a128 - 5.0_f128).into());
             assert_eq!(100.0_f128, (a128 * 5.0_f128).into());
             assert_eq!(4.0_f128, (a128 / 5.0_f128).into());
+        }
+    }
+
+    // Reversed mixed-type operations: `T op Algebraic<T>` and `T op_assign Algebraic<T>`
+
+    #[test]
+    fn test_add_f64_primitive_reversed() {
+        let b: Algebraic<f64> = Algebraic::from(5.0);
+        let result = 10.0_f64 + b;
+        assert_eq!(15.0, result.into());
+    }
+
+    #[test]
+    fn test_sub_f64_primitive_reversed() {
+        let b: Algebraic<f64> = Algebraic::from(5.0);
+        let result = 10.0_f64 - b;
+        assert_eq!(5.0, result.into());
+    }
+
+    #[test]
+    fn test_mul_f64_primitive_reversed() {
+        let b: Algebraic<f64> = Algebraic::from(5.0);
+        let result = 10.0_f64 * b;
+        assert_eq!(50.0, result.into());
+    }
+
+    #[test]
+    fn test_div_f64_primitive_reversed() {
+        let b: Algebraic<f64> = Algebraic::from(5.0);
+        let result = 10.0_f64 / b;
+        assert_eq!(2.0, result.into());
+    }
+
+    #[test]
+    fn test_rem_f64_primitive_reversed() {
+        let b: Algebraic<f64> = Algebraic::from(5.0);
+        let result = 13.0_f64 % b;
+        assert_eq!(3.0, result.into());
+    }
+
+    #[test]
+    fn test_all_f64_primitive_reversed_operations() {
+        let b = Algebraic::from(5.0_f64);
+
+        assert_eq!(25.0, (20.0_f64 + b).into());
+        assert_eq!(15.0, (20.0_f64 - b).into());
+        assert_eq!(100.0, (20.0_f64 * b).into());
+        assert_eq!(4.0, (20.0_f64 / b).into());
+        assert_eq!(2.0, (20.0_f64 % Algebraic::from(3.0_f64)).into());
+    }
+
+    #[test]
+    fn test_all_f64_primitive_reversed_assign_operations() {
+        let mut a = 20.0_f64;
+        a += Algebraic::from(5.0_f64);
+        assert_eq!(a, 25.0);
+        a -= Algebraic::from(5.0_f64);
+        assert_eq!(a, 20.0);
+        a *= Algebraic::from(5.0_f64);
+        assert_eq!(a, 100.0);
+        a /= Algebraic::from(5.0_f64);
+        assert_eq!(a, 20.0);
+        a %= Algebraic::from(3.0_f64);
+        assert_eq!(a, 2.0);
+    }
+
+    #[test]
+    fn test_add_f32_primitive_reversed() {
+        let b: Algebraic<f32> = Algebraic::from(5.0_f32);
+        let result = 10.0_f32 + b;
+        assert_eq!(15.0_f32, result.into());
+    }
+
+    #[test]
+    fn test_sub_f32_primitive_reversed() {
+        let b: Algebraic<f32> = Algebraic::from(5.0_f32);
+        let result = 10.0_f32 - b;
+        assert_eq!(5.0_f32, result.into());
+    }
+
+    #[test]
+    fn test_mul_f32_primitive_reversed() {
+        let b: Algebraic<f32> = Algebraic::from(5.0_f32);
+        let result = 10.0_f32 * b;
+        assert_eq!(50.0_f32, result.into());
+    }
+
+    #[test]
+    fn test_div_f32_primitive_reversed() {
+        let b: Algebraic<f32> = Algebraic::from(5.0_f32);
+        let result = 10.0_f32 / b;
+        assert_eq!(2.0_f32, result.into());
+    }
+
+    #[test]
+    fn test_rem_f32_primitive_reversed() {
+        let b: Algebraic<f32> = Algebraic::from(5.0_f32);
+        let result = 13.0_f32 % b;
+        assert_eq!(3.0_f32, result.into());
+    }
+
+    #[test]
+    fn test_all_f32_primitive_reversed_operations() {
+        let b = Algebraic::from(5.0_f32);
+
+        assert_eq!(25.0_f32, (20.0_f32 + b).into());
+        assert_eq!(15.0_f32, (20.0_f32 - b).into());
+        assert_eq!(100.0_f32, (20.0_f32 * b).into());
+        assert_eq!(4.0_f32, (20.0_f32 / b).into());
+        assert_eq!(2.0_f32, (20.0_f32 % Algebraic::from(3.0_f32)).into());
+    }
+
+    #[test]
+    fn test_all_f32_primitive_reversed_assign_operations() {
+        let mut a = 20.0_f32;
+        a += Algebraic::from(5.0_f32);
+        assert_eq!(a, 25.0_f32);
+        a -= Algebraic::from(5.0_f32);
+        assert_eq!(a, 20.0_f32);
+        a *= Algebraic::from(5.0_f32);
+        assert_eq!(a, 100.0_f32);
+        a /= Algebraic::from(5.0_f32);
+        assert_eq!(a, 20.0_f32);
+        a %= Algebraic::from(3.0_f32);
+        assert_eq!(a, 2.0_f32);
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_add_f16_primitive_reversed() {
+        let b: Algebraic<f16> = Algebraic::from(5.0_f16);
+        let result = 10.0_f16 + b;
+        assert_eq!(15.0_f16, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_sub_f16_primitive_reversed() {
+        let b: Algebraic<f16> = Algebraic::from(5.0_f16);
+        let result = 10.0_f16 - b;
+        assert_eq!(5.0_f16, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_mul_f16_primitive_reversed() {
+        let b: Algebraic<f16> = Algebraic::from(5.0_f16);
+        let result = 10.0_f16 * b;
+        assert_eq!(50.0_f16, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_div_f16_primitive_reversed() {
+        let b: Algebraic<f16> = Algebraic::from(5.0_f16);
+        let result = 10.0_f16 / b;
+        assert_eq!(2.0_f16, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_rem_f16_primitive_reversed() {
+        let b: Algebraic<f16> = Algebraic::from(5.0_f16);
+        let result = 13.0_f16 % b;
+        assert_eq!(3.0_f16, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f16")]
+    fn test_all_f16_primitive_reversed_assign_operations() {
+        let mut a = 20.0_f16;
+        a += Algebraic::from(5.0_f16);
+        assert_eq!(a, 25.0_f16);
+        a -= Algebraic::from(5.0_f16);
+        assert_eq!(a, 20.0_f16);
+        a *= Algebraic::from(5.0_f16);
+        assert_eq!(a, 100.0_f16);
+        a /= Algebraic::from(5.0_f16);
+        assert_eq!(a, 20.0_f16);
+        a %= Algebraic::from(3.0_f16);
+        assert_eq!(a, 2.0_f16);
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_add_f128_primitive_reversed() {
+        let b: Algebraic<f128> = Algebraic::from(5.0_f128);
+        let result = 10.0_f128 + b;
+        assert_eq!(15.0_f128, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_sub_f128_primitive_reversed() {
+        let b: Algebraic<f128> = Algebraic::from(5.0_f128);
+        let result = 10.0_f128 - b;
+        assert_eq!(5.0_f128, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_mul_f128_primitive_reversed() {
+        let b: Algebraic<f128> = Algebraic::from(5.0_f128);
+        let result = 10.0_f128 * b;
+        assert_eq!(50.0_f128, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_div_f128_primitive_reversed() {
+        let b: Algebraic<f128> = Algebraic::from(5.0_f128);
+        let result = 10.0_f128 / b;
+        assert_eq!(2.0_f128, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_rem_f128_primitive_reversed() {
+        let b: Algebraic<f128> = Algebraic::from(5.0_f128);
+        let result = 13.0_f128 % b;
+        assert_eq!(3.0_f128, result.into());
+    }
+
+    #[test]
+    #[cfg(feature = "f128")]
+    fn test_all_f128_primitive_reversed_assign_operations() {
+        let mut a = 20.0_f128;
+        a += Algebraic::from(5.0_f128);
+        assert_eq!(a, 25.0_f128);
+        a -= Algebraic::from(5.0_f128);
+        assert_eq!(a, 20.0_f128);
+        a *= Algebraic::from(5.0_f128);
+        assert_eq!(a, 100.0_f128);
+        a /= Algebraic::from(5.0_f128);
+        assert_eq!(a, 20.0_f128);
+        a %= Algebraic::from(3.0_f128);
+        assert_eq!(a, 2.0_f128);
+    }
+
+    #[test]
+    fn test_all_primitive_types_reversed_operations() {
+        // Test f16
+        #[cfg(feature = "f16")]
+        {
+            let b16 = Algebraic::from(5.0_f16);
+            assert_eq!(25.0_f16, (20.0_f16 + b16).into());
+            assert_eq!(15.0_f16, (20.0_f16 - b16).into());
+            assert_eq!(100.0_f16, (20.0_f16 * b16).into());
+            assert_eq!(4.0_f16, (20.0_f16 / b16).into());
+        }
+
+        // Test f32
+        let b32 = Algebraic::from(5.0_f32);
+        assert_eq!(25.0_f32, (20.0_f32 + b32).into());
+        assert_eq!(15.0_f32, (20.0_f32 - b32).into());
+        assert_eq!(100.0_f32, (20.0_f32 * b32).into());
+        assert_eq!(4.0_f32, (20.0_f32 / b32).into());
+
+        // Test f64
+        let b64 = Algebraic::from(5.0_f64);
+        assert_eq!(25.0_f64, (20.0_f64 + b64).into());
+        assert_eq!(15.0_f64, (20.0_f64 - b64).into());
+        assert_eq!(100.0_f64, (20.0_f64 * b64).into());
+        assert_eq!(4.0_f64, (20.0_f64 / b64).into());
+
+        // Test f128
+        #[cfg(feature = "f128")]
+        {
+            let b128 = Algebraic::from(5.0_f128);
+            assert_eq!(25.0_f128, (20.0_f128 + b128).into());
+            assert_eq!(15.0_f128, (20.0_f128 - b128).into());
+            assert_eq!(100.0_f128, (20.0_f128 * b128).into());
+            assert_eq!(4.0_f128, (20.0_f128 / b128).into());
         }
     }
 
