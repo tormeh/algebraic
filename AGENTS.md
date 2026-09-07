@@ -26,3 +26,4 @@ The toolchain is pinned to **stable 1.98** via `rust-toolchain.toml`. The `f16` 
 - **Adding new math operations**: Check whether an algebraic intrinsic exists in `core::intrinsics` or the standard library's experimental math modules before falling back to a non-algebraic implementation.
 - **Respect API best-practices**: We try to follow [the official guidelines](https://rust-lang.github.io/api-guidelines).
 - **Keep a changelog**: We use [Keep a Changelog](https://keepachangelog.com/en)
+- **Respect the sandbox**: All agents are inside a sandbox. Avoid unnecessary writes outside the project (e.g., to `/tmp`) as these require manual approval.
