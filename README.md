@@ -19,6 +19,22 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
   - Primitive-to-algebraic operations (`af64 + f64`)
 - Full support for `Sum` and `Product` traits, allowing you to sum or multiply standard floating-point iterators directly into an `Algebraic<T>`.
 
+## Benchmarks
+
+Measured with [Criterion](https://github.com/bheisler/criterion.rs) on an AMD
+Ryzen 75800X3D with `rustc 1.98.0`, operating on slices of 65,536 elements with
+`RUSTFLAGS="-C target-cpu=x86-64-v3"` (see[`benches/arithmetic.rs`](benches/arithmetic.rs)):
+
+| Operation       | `f32`   | `af32`  | Speedup    | `f64`    | `af64`   | Speedup    |
+|-----------------|---------|---------|------------|----------|----------|------------|
+| `sum`           | 44.4 µs | 1.87 µs | **~23.8x** | 44.6 µs  | 4.64 µs  | **~9.6x**  |
+| `product`       | 44.4 µs | 1.86 µs | **~23.9x** | 44.5 µs  | 4.33 µs  | **~10.3x** |
+| dot product     | 44.7 µs | 4.16 µs | **~10.7x** | 44.7 µs  | 8.75 µs  | **~5.1x**  |
+| elementwise add | 7.07 µs | 6.79 µs | ~1.04x     | 15.38 µs | 15.30 µs | ~1.01x     |
+
+These numbers are hardware- and compiler-version-dependent; run `just bench-v3` (adjust the
+`target` compiler flag to your CPU) to measure on your own machine.
+
 ## Example
 
 ```rust
