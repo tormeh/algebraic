@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Optional `serde` support (behind the new `serde` feature flag) with `Serialize` and
+  `Deserialize` implementations for `Algebraic<T>`. `Algebraic<T>` serializes and deserializes
+  exactly as the wrapped primitive value would, and the implementation is `no_std`-compatible.
 - Operator overloads for supported primitive float types on the left-hand side of
   `Algebraic<T>` arithmetic, including assignment variants, so expressions like
   `1.0_f64 + Algebraic::from(2.0_f64)` and `value += Algebraic::from(2.0_f64)` are supported.

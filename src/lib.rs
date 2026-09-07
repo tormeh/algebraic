@@ -16,11 +16,19 @@
 //!
 //! - **f32 and f64**: Supported on stable Rust (version 1.98+).
 //! - **f16 and f128** (Feature-gated): Require a nightly toolchain and the unstable features `f16` / `f128`.
+//! - **serde** (Feature-gated): Adds `Serialize`/`Deserialize` implementations for [`Algebraic<T>`],
+//!   serializing/deserializing exactly as the wrapped primitive would. Works without `std`.
 //!
 //! To use the unstable types, add this to your `Cargo.toml`:
 //! ```toml
 //! [dependencies]
 //! algebraic = { version = "*", features = ["f16", "f128"] }
+//! ```
+//!
+//! To enable `serde` support, add this to your `Cargo.toml`:
+//! ```toml
+//! [dependencies]
+//! algebraic = { version = "*", features = ["serde"] }
 //! ```
 //!
 //! ## Example
@@ -51,6 +59,8 @@ mod algebraic;
 mod conversions;
 mod impls;
 mod ops;
+#[cfg(feature = "serde")]
+mod serde_impl;
 mod traits;
 mod types;
 
