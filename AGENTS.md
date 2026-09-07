@@ -25,3 +25,4 @@ The toolchain is pinned to **stable 1.98** via `rust-toolchain.toml`. The `f16` 
 - **Adding a new float type**: Implement `AlgebraicFloatTrait` for the new type in `src/impls/`, add `From`/`Into` conversions in `src/conversions.rs`, and add a type alias in `src/types.rs`. Gate everything behind a feature flag if the type is unstable.
 - **Adding new math operations**: Check whether an algebraic intrinsic exists in `core::intrinsics` or the standard library's experimental math modules before falling back to a non-algebraic implementation.
 - **Respect API best-practices**: We try to follow [the official guidelines](https://rust-lang.github.io/api-guidelines).
+- **Keep a changelog**: We use [Keep a Changelog](https://keepachangelog.com/en)
