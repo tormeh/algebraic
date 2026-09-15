@@ -41,17 +41,14 @@ These numbers are hardware- and compiler-version-dependent; run `just bench-v3` 
 ```rust
 use algebraic::af32;
 
-// Construct algebraic floats using `new` or `From::from`
-let a = af32::new(1.5);
-let b = af32::from(2.0);
-
 // Perform standard arithmetic operations which compile down to algebraic intrinsics,
 // allowing the compiler to aggressively reorder and vectorize.
-let mut c = a * b + af32::new(0.5);
-assert_eq!(c.value(), 3.5);
+let a: af32 = 2.0_f32.into();
+let mut b: af32 = 1.5 * a + 0.5;
+assert_eq!(b.value(), 3.5);
 
-c += af32::new(1.0);
-assert_eq!(f32::from(c), 4.5);
+b += 1.0;
+assert_eq!(b.value(), 4.5);
 
 // Works seamlessly with iterators for operations like sum and product
 let values = [1.0, 2.0, 3.0, 4.0].map(af32::new);
