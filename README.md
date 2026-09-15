@@ -67,4 +67,6 @@ assert_eq!(sum.value(), 10.0);
 
 ## Disclaimer
 
-I'm just a guy. Should you use this for serious stuff? Maybe, maybe not.
+I'm just a guy, and this library is the opposite of battle-tested. It's so
+simple that it ought to work, but I'm not promising anything. If it doesn't
+work for you, please create an issue on GitHub.
