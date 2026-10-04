@@ -1,27 +1,27 @@
 # Type-check stable and nightly (with f16/f128 features)
 check-types:
     cargo check
-    cargo check --features "serde"
-    cargo +nightly check --features "f16,f128,serde"
+    cargo check --features "serde,num"
+    cargo +nightly check --all-features
 
 # Lint stable and nightly (with f16/f128 features)
 lint:
     cargo clippy --all-targets
-    cargo clippy --features "serde" --all-targets
-    cargo +nightly clippy --features "f16,f128,serde" --all-targets
+    cargo clippy --features "serde,num" --all-targets
+    cargo +nightly clippy --all-features --all-targets
     rumdl check --disable MD013
 
 # Apply clippy fixes for stable and nightly (with f16/f128 features)
 fix:
     cargo clippy --fix
-    cargo clippy --fix --features "serde"
-    cargo +nightly clippy --fix --features "f16,f128,serde"
+    cargo clippy --fix --features "serde,num"
+    cargo +nightly clippy --fix --all-features
 
 # Run tests for stable and nightly (with f16/f128 features)
 test:
     cargo test
-    cargo test --features "serde"
-    cargo +nightly test --features "f16,f128,serde"
+    cargo test --features "serde,num"
+    cargo +nightly test --all-features
     cargo test --doc
 
 # Run benchmarks (stable types only; f16/f128 require nightly and are not benchmarked here)
