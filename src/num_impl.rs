@@ -1,10 +1,15 @@
+//! `num-traits` support for [`Algebraic<T>`], enabled via the **`num`** crate feature.
+//!
+//! Provides implementations of numeric, floating-point, and conversion traits from [`num_traits`]
+//! for [`Algebraic<T>`] wrappers whose inner type `T` implements the corresponding traits.
+
 use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
 use core::num::FpCategory;
 use num_traits::float::FloatCore;
 use num_traits::{
-    ConstOne, ConstZero, Float, FloatConst, FromPrimitive, Inv, Num, NumCast, One, Signed,
-    ToPrimitive, Zero,
+    Bounded, ConstOne, ConstZero, Float, FloatConst, FromPrimitive, Inv, MulAdd, MulAddAssign, Num,
+    NumCast, One, Signed, ToPrimitive, Zero,
 };
 
 impl<T> Zero for Algebraic<T>
@@ -161,6 +166,21 @@ where
     #[inline]
     fn from<N: ToPrimitive>(n: N) -> Option<Self> {
         T::from(n).map(Self::new)
+    }
+}
+
+impl<T> Bounded for Algebraic<T>
+where
+    T: AlgebraicFloatTrait + Bounded,
+{
+    #[inline]
+    fn min_value() -> Self {
+        Self::new(T::min_value())
+    }
+
+    #[inline]
+    fn max_value() -> Self {
+        Self::new(T::max_value())
     }
 }
 
@@ -412,6 +432,28 @@ where
     }
 }
 
+impl<T> MulAdd for Algebraic<T>
+where
+    T: AlgebraicFloatTrait + MulAdd<Output = T>,
+{
+    type Output = Self;
+
+    #[inline]
+    fn mul_add(self, a: Self, b: Self) -> Self::Output {
+        Self::new(self.value.mul_add(a.value, b.value))
+    }
+}
+
+impl<T> MulAddAssign for Algebraic<T>
+where
+    T: AlgebraicFloatTrait + MulAddAssign,
+{
+    #[inline]
+    fn mul_add_assign(&mut self, a: Self, b: Self) {
+        self.value.mul_add_assign(a.value, b.value);
+    }
+}
+
 #[cfg(test)]
 #[allow(clippy::float_cmp)]
 mod tests {
@@ -462,5 +504,47 @@ mod tests {
         assert_eq!(one, af32::new(1.0));
         let pi: af32 = FloatConst::PI();
         assert_eq!(pi, af32::new(core::f32::consts::PI));
+    }
+
+    #[test]
+    fn test_bounded() {
+        assert_eq!(<af32 as Bounded>::min_value(), af32::new(f32::MIN));
+        assert_eq!(<af32 as Bounded>::max_value(), af32::new(f32::MAX));
+        assert_eq!(<af64 as Bounded>::min_value(), af64::new(f64::MIN));
+        assert_eq!(<af64 as Bounded>::max_value(), af64::new(f64::MAX));
+    }
+
+    #[test]
+    fn test_num_assign() {
+        use num_traits::{NumAssign, NumAssignRef};
+
+        fn assert_num_assign<T: NumAssign + NumAssignRef>() {}
+        assert_num_assign::<af32>();
+        assert_num_assign::<af64>();
+
+        let mut a = af32::new(5.0);
+        let b = af32::new(3.0);
+        a += &b;
+        assert_eq!(a, af32::new(8.0));
+        a -= &b;
+        assert_eq!(a, af32::new(5.0));
+        a *= &b;
+        assert_eq!(a, af32::new(15.0));
+        a /= &b;
+        assert_eq!(a, af32::new(5.0));
+        a %= &b;
+        assert_eq!(a, af32::new(2.0));
+    }
+
+    #[test]
+    fn test_mul_add() {
+        let a = af32::new(2.0);
+        let b = af32::new(3.0);
+        let c = af32::new(4.0);
+        assert_eq!(MulAdd::mul_add(a, b, c), af32::new(10.0));
+
+        let mut d = a;
+        d.mul_add_assign(b, c);
+        assert_eq!(d, af32::new(10.0));
     }
 }

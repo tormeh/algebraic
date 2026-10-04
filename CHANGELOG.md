@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Optional `num` feature implementing `num-traits` numeric, floating-point, and conversion traits
   for algebraic float wrappers whose inner type provides the corresponding traits.
+- Reference-based compound assignment operators: `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`
+  and `RemAssign` now accept `&Algebraic<T>` and `&T` on the right-hand side.
 
 ### Changed
 
