@@ -218,7 +218,7 @@ where
 
 impl<T> Float for Algebraic<T>
 where
-    T: AlgebraicFloatTrait + Float + FloatConst,
+    T: AlgebraicFloatTrait + Float,
 {
     forward_float_static! {
         nan,
