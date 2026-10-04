@@ -75,6 +75,76 @@ impl<T: AlgebraicFloatTrait> RemAssign<T> for Algebraic<T> {
     }
 }
 
+impl<'a, T: AlgebraicFloatTrait> AddAssign<&'a Self> for Algebraic<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: &'a Self) {
+        self.value = self.value.algebraic_add(rhs.value);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> SubAssign<&'a Self> for Algebraic<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: &'a Self) {
+        self.value = self.value.algebraic_sub(rhs.value);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> MulAssign<&'a Self> for Algebraic<T> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: &'a Self) {
+        self.value = self.value.algebraic_mul(rhs.value);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> DivAssign<&'a Self> for Algebraic<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: &'a Self) {
+        self.value = self.value.algebraic_div(rhs.value);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> RemAssign<&'a Self> for Algebraic<T> {
+    #[inline]
+    fn rem_assign(&mut self, rhs: &'a Self) {
+        self.value = self.value.algebraic_rem(rhs.value);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> AddAssign<&'a T> for Algebraic<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: &'a T) {
+        self.value = self.value.algebraic_add(*rhs);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> SubAssign<&'a T> for Algebraic<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: &'a T) {
+        self.value = self.value.algebraic_sub(*rhs);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> MulAssign<&'a T> for Algebraic<T> {
+    #[inline]
+    fn mul_assign(&mut self, rhs: &'a T) {
+        self.value = self.value.algebraic_mul(*rhs);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> DivAssign<&'a T> for Algebraic<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: &'a T) {
+        self.value = self.value.algebraic_div(*rhs);
+    }
+}
+
+impl<'a, T: AlgebraicFloatTrait> RemAssign<&'a T> for Algebraic<T> {
+    #[inline]
+    fn rem_assign(&mut self, rhs: &'a T) {
+        self.value = self.value.algebraic_rem(*rhs);
+    }
+}
+
 impl<T: AlgebraicFloatTrait> Add for Algebraic<T> {
     type Output = Self;
 
