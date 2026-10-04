@@ -251,7 +251,6 @@ where
         fract,
         abs,
         signum,
-        recip,
         sqrt,
         exp,
         exp2,
@@ -273,6 +272,10 @@ where
         asinh,
         acosh,
         atanh,
+    }
+
+    fn recip(self) -> Self {
+        Self::one() / self
     }
 
     fn mul_add(self, a: Self, b: Self) -> Self {
