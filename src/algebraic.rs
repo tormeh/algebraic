@@ -51,18 +51,21 @@ impl<T: AlgebraicFloatTrait + PartialOrd> PartialOrd for Algebraic<T> {
 
 impl<T: AlgebraicFloatTrait> Algebraic<T> {
     /// Creates a new `Algebraic` instance wrapping the given primitive floating-point value.
+    #[inline]
     pub const fn new(value: T) -> Self {
         Self { value }
     }
 
     /// Returns the additive identity (zero, `0.0`) of the wrapped floating-point type.
     #[must_use]
+    #[inline]
     pub fn zero() -> Self {
         Self { value: T::zero() }
     }
 
     /// Returns the multiplicative identity (one, `1.0`) of the wrapped floating-point type.
     #[must_use]
+    #[inline]
     pub fn one() -> Self {
         Self { value: T::one() }
     }
@@ -70,6 +73,7 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
     /// Returns the wrapped inner raw floating-point value.
     ///
     /// This is equivalent to converting using `Into<T>` or `From`.
+    #[inline]
     pub const fn value(self) -> T {
         self.value
     }

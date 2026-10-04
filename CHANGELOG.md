@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PartialOrd` for `Algebraic<T>` is now implemented manually, forwarding `<`, `<=`, `>` and `>=`
   directly to the inner value. This yields better code than the derived implementation, which
   routes comparisons through `partial_cmp` and `Option<Ordering>`. Behavior is unchanged.
+- Added `#[inline]` to the arithmetic operators, conversions, accessors and `AlgebraicFloatTrait`
+  implementations to improve code generation.
 
 ## [0.1.3] - 2026-09-15
 

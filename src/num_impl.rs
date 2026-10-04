@@ -11,10 +11,12 @@ impl<T> Zero for Algebraic<T>
 where
     T: AlgebraicFloatTrait + Zero,
 {
+    #[inline]
     fn zero() -> Self {
         Self::new(<T as Zero>::zero())
     }
 
+    #[inline]
     fn is_zero(&self) -> bool {
         self.value.is_zero()
     }
@@ -31,6 +33,7 @@ impl<T> One for Algebraic<T>
 where
     T: AlgebraicFloatTrait + One,
 {
+    #[inline]
     fn one() -> Self {
         Self::new(<T as One>::one())
     }
@@ -49,6 +52,7 @@ where
 {
     type FromStrRadixErr = T::FromStrRadixErr;
 
+    #[inline]
     fn from_str_radix(src: &str, radix: u32) -> Result<Self, Self::FromStrRadixErr> {
         T::from_str_radix(src, radix).map(Self::new)
     }
@@ -58,22 +62,27 @@ impl<T> Signed for Algebraic<T>
 where
     T: AlgebraicFloatTrait + Signed + Neg<Output = T>,
 {
+    #[inline]
     fn abs(&self) -> Self {
         Self::new(self.value.abs())
     }
 
+    #[inline]
     fn abs_sub(&self, other: &Self) -> Self {
         Self::new(self.value.abs_sub(&other.value))
     }
 
+    #[inline]
     fn signum(&self) -> Self {
         Self::new(self.value.signum())
     }
 
+    #[inline]
     fn is_positive(&self) -> bool {
         self.value.is_positive()
     }
 
+    #[inline]
     fn is_negative(&self) -> bool {
         self.value.is_negative()
     }
@@ -82,6 +91,7 @@ where
 macro_rules! forward_to_primitive {
     ($($method:ident -> $primitive:ty),+ $(,)?) => {
         $(
+            #[inline]
             fn $method(&self) -> Option<$primitive> {
                 <T as ToPrimitive>::$method(&self.value)
             }
@@ -114,6 +124,7 @@ where
 macro_rules! forward_from_primitive {
     ($($method:ident($primitive:ty)),+ $(,)?) => {
         $(
+            #[inline]
             fn $method(n: $primitive) -> Option<Self> {
                 <T as FromPrimitive>::$method(n).map(Self::new)
             }
@@ -147,6 +158,7 @@ impl<T> NumCast for Algebraic<T>
 where
     T: AlgebraicFloatTrait + NumCast,
 {
+    #[inline]
     fn from<N: ToPrimitive>(n: N) -> Option<Self> {
         T::from(n).map(Self::new)
     }
@@ -155,6 +167,7 @@ where
 macro_rules! forward_float_static {
     ($($method:ident),+ $(,)?) => {
         $(
+            #[inline]
             fn $method() -> Self {
                 Self::new(T::$method())
             }
@@ -165,6 +178,7 @@ macro_rules! forward_float_static {
 macro_rules! forward_float_unary {
     ($($method:ident),+ $(,)?) => {
         $(
+            #[inline]
             fn $method(self) -> Self {
                 Self::new(self.value.$method())
             }
@@ -175,6 +189,7 @@ macro_rules! forward_float_unary {
 macro_rules! forward_float_predicates {
     ($($method:ident),+ $(,)?) => {
         $(
+            #[inline]
             fn $method(self) -> bool {
                 self.value.$method()
             }
@@ -185,6 +200,7 @@ macro_rules! forward_float_predicates {
 macro_rules! forward_float_binary {
     ($($method:ident),+ $(,)?) => {
         $(
+            #[inline]
             fn $method(self, other: Self) -> Self {
                 Self::new(self.value.$method(other.value))
             }
@@ -239,6 +255,7 @@ where
         is_sign_negative,
     }
 
+    #[inline]
     fn classify(self) -> FpCategory {
         self.value.classify()
     }
@@ -274,18 +291,22 @@ where
         atanh,
     }
 
+    #[inline]
     fn recip(self) -> Self {
         Self::one() / self
     }
 
+    #[inline]
     fn mul_add(self, a: Self, b: Self) -> Self {
         Self::new(self.value.mul_add(a.value, b.value))
     }
 
+    #[inline]
     fn powi(self, n: i32) -> Self {
         Self::new(self.value.powi(n))
     }
 
+    #[inline]
     fn log(self, base: Self) -> Self {
         Self::new(self.value.log(base.value))
     }
@@ -299,11 +320,13 @@ where
         atan2,
     }
 
+    #[inline]
     fn sin_cos(self) -> (Self, Self) {
         let (sin, cos) = self.value.sin_cos();
         (Self::new(sin), Self::new(cos))
     }
 
+    #[inline]
     fn integer_decode(self) -> (u64, i16, i8) {
         self.value.integer_decode()
     }
@@ -315,6 +338,7 @@ where
 {
     type Output = Self;
 
+    #[inline]
     fn inv(self) -> Self::Output {
         Self::one() / self
     }

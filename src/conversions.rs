@@ -4,18 +4,21 @@ use crate::algebraic::Algebraic;
 
 #[cfg(feature = "f16")]
 impl From<f16> for Algebraic<f16> {
+    #[inline]
     fn from(value: f16) -> Self {
         Self { value }
     }
 }
 
 impl From<f32> for Algebraic<f32> {
+    #[inline]
     fn from(value: f32) -> Self {
         Self { value }
     }
 }
 
 impl From<f64> for Algebraic<f64> {
+    #[inline]
     fn from(value: f64) -> Self {
         Self { value }
     }
@@ -23,6 +26,7 @@ impl From<f64> for Algebraic<f64> {
 
 #[cfg(feature = "f128")]
 impl From<f128> for Algebraic<f128> {
+    #[inline]
     fn from(value: f128) -> Self {
         Self { value }
     }
@@ -32,18 +36,21 @@ impl From<f128> for Algebraic<f128> {
 
 #[cfg(feature = "f16")]
 impl From<Algebraic<Self>> for f16 {
+    #[inline]
     fn from(val: Algebraic<Self>) -> Self {
         val.value
     }
 }
 
 impl From<Algebraic<Self>> for f32 {
+    #[inline]
     fn from(val: Algebraic<Self>) -> Self {
         val.value
     }
 }
 
 impl From<Algebraic<Self>> for f64 {
+    #[inline]
     fn from(val: Algebraic<Self>) -> Self {
         val.value
     }
@@ -51,6 +58,7 @@ impl From<Algebraic<Self>> for f64 {
 
 #[cfg(feature = "f128")]
 impl From<Algebraic<Self>> for f128 {
+    #[inline]
     fn from(val: Algebraic<Self>) -> Self {
         val.value
     }
