@@ -1,7 +1,6 @@
 use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
 use core::num::FpCategory;
-use core::ops::Neg;
 use num_traits::float::FloatCore;
 use num_traits::{
     ConstOne, ConstZero, Float, FloatConst, FromPrimitive, Inv, Num, NumCast, One, Signed,
@@ -61,7 +60,7 @@ where
 
 impl<T> Signed for Algebraic<T>
 where
-    T: AlgebraicFloatTrait + Signed + Neg<Output = T>,
+    T: AlgebraicFloatTrait + Signed,
 {
     #[inline]
     fn abs(&self) -> Self {
