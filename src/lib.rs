@@ -18,7 +18,7 @@
 //! - **f16 and f128** (Feature-gated): Require a nightly toolchain and the unstable features `f16` / `f128`.
 //! - **serde** (Feature-gated): Adds `Serialize`/`Deserialize` implementations for [`Algebraic<T>`],
 //!   serializing/deserializing exactly as the wrapped primitive would. Works without `std`.
-//! - **num** (Feature-gated): Adds `num-traits` implementations, including `Float`, for supported
+//! - **num** (Feature-gated): Adds `num-traits` implementations, including `Float` and `FloatCore`, for supported
 //!   algebraic floating-point types.
 //!
 //! To use the unstable types, add this to your `Cargo.toml`:

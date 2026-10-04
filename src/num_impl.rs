@@ -2,6 +2,7 @@ use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
 use core::num::FpCategory;
 use core::ops::Neg;
+use num_traits::float::FloatCore;
 use num_traits::{
     ConstOne, ConstZero, Float, FloatConst, FromPrimitive, Inv, Num, NumCast, One, Signed,
     ToPrimitive, Zero,
@@ -232,6 +233,74 @@ where
     }
 }
 
+impl<T> FloatCore for Algebraic<T>
+where
+    T: AlgebraicFloatTrait + FloatCore,
+{
+    forward_float_static! {
+        nan,
+        infinity,
+        neg_infinity,
+        neg_zero,
+        min_value,
+        min_positive_value,
+        epsilon,
+        max_value,
+    }
+
+    forward_float_predicates! {
+        is_nan,
+        is_infinite,
+        is_finite,
+        is_normal,
+        is_subnormal,
+        is_sign_positive,
+        is_sign_negative,
+    }
+
+    #[inline]
+    fn classify(self) -> FpCategory {
+        self.value.classify()
+    }
+
+    forward_float_unary! {
+        floor,
+        ceil,
+        round,
+        trunc,
+        fract,
+        abs,
+        signum,
+        to_degrees,
+        to_radians,
+    }
+
+    #[inline]
+    fn recip(self) -> Self {
+        Self::one() / self
+    }
+
+    #[inline]
+    fn powi(self, exp: i32) -> Self {
+        Self::new(self.value.powi(exp))
+    }
+
+    forward_float_binary! {
+        max,
+        min,
+    }
+
+    #[inline]
+    fn clamp(self, min: Self, max: Self) -> Self {
+        Self::new(self.value.clamp(min.value, max.value))
+    }
+
+    #[inline]
+    fn integer_decode(self) -> (u64, i16, i8) {
+        self.value.integer_decode()
+    }
+}
+
 impl<T> Float for Algebraic<T>
 where
     T: AlgebraicFloatTrait + Float,
@@ -341,5 +410,58 @@ where
     #[inline]
     fn inv(self) -> Self::Output {
         Self::one() / self
+    }
+}
+
+#[cfg(test)]
+#[allow(clippy::float_cmp)]
+mod tests {
+    use super::*;
+    use crate::types::{af32, af64};
+
+    #[test]
+    fn test_float_core_f32() {
+        let x = af32::new(4.0);
+        let y = af32::new(2.0);
+        assert_eq!(FloatCore::floor(af32::new(4.7)), af32::new(4.0));
+        assert_eq!(FloatCore::ceil(af32::new(4.2)), af32::new(5.0));
+        assert_eq!(FloatCore::min(x, y), af32::new(2.0));
+        assert_eq!(FloatCore::max(x, y), af32::new(4.0));
+        assert_eq!(
+            FloatCore::clamp(x, af32::new(1.0), af32::new(3.0)),
+            af32::new(3.0)
+        );
+        assert_eq!(FloatCore::recip(y), af32::new(0.5));
+        assert_eq!(FloatCore::powi(y, 3), af32::new(8.0));
+        assert!(FloatCore::is_finite(x));
+        assert!(!FloatCore::is_infinite(x));
+        assert!(!FloatCore::is_nan(x));
+        assert!(FloatCore::is_sign_positive(x));
+        assert!(!FloatCore::is_sign_negative(x));
+    }
+
+    #[test]
+    fn test_float_core_f64() {
+        let x = af64::new(-4.0);
+        assert_eq!(FloatCore::abs(x), af64::new(4.0));
+        assert_eq!(FloatCore::signum(x), af64::new(-1.0));
+        assert!(FloatCore::is_sign_negative(x));
+        assert!(!FloatCore::is_sign_positive(x));
+        assert!(FloatCore::is_nan(<af64 as FloatCore>::nan()));
+        assert!(FloatCore::is_infinite(<af64 as FloatCore>::infinity()));
+    }
+
+    #[test]
+    fn test_float_traits() {
+        let b = af32::new(2.0);
+        assert_eq!(Float::sqrt(af32::new(9.0)), af32::new(3.0));
+        assert_eq!(Float::recip(b), af32::new(0.5));
+        assert_eq!(Inv::inv(b), af32::new(0.5));
+        let zero: af32 = Zero::zero();
+        assert_eq!(zero, af32::new(0.0));
+        let one: af32 = One::one();
+        assert_eq!(one, af32::new(1.0));
+        let pi: af32 = FloatConst::PI();
+        assert_eq!(pi, af32::new(core::f32::consts::PI));
     }
 }
