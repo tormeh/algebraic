@@ -7,14 +7,6 @@ use num_traits::{
     ToPrimitive, Zero,
 };
 
-impl<T: AlgebraicFloatTrait + Neg<Output = T>> Neg for Algebraic<T> {
-    type Output = Self;
-
-    fn neg(self) -> Self::Output {
-        Self::new(-self.value)
-    }
-}
-
 impl<T> Zero for Algebraic<T>
 where
     T: AlgebraicFloatTrait + Zero,
