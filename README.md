@@ -19,6 +19,7 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
   - Primitive-to-algebraic operations (`af64 + f64`)
 - Full support for `Sum` and `Product` traits, allowing you to sum or multiply standard floating-point iterators directly into an `Algebraic<T>`.
 - Optional `serde` support (behind the `serde` feature) that serializes/deserializes `Algebraic<T>` exactly as the wrapped primitive would, with no `std` requirement.
+- Optional [`num-traits`](https://docs.rs/num-traits) support (behind the `num` feature), including `Float`, `FloatConst`, numeric identities, and conversion traits.
 
 ## Benchmarks
 
@@ -64,6 +65,7 @@ assert_eq!(sum.value(), 10.0);
 | `f16`    | `f16` (`af16`) support                       | **Nightly**        |
 | `f128`   | `f128` (`af128`) support                     | **Nightly**        |
 | `serde`  | `Serialize`/`Deserialize` for `Algebraic<T>` | **Stable (1.98+)** |
+| `num`    | `num-traits` support for `Algebraic<T>`      | **Stable (1.98+)** |
 
 ## Disclaimer
 
