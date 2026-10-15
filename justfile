@@ -4,6 +4,12 @@ check-types:
     cargo check --features "serde,num"
     cargo +nightly check --all-features
 
+# Type-check for a bare-metal target without std (verifies the crate is no_std-clean)
+check-no-std:
+    #rustup target add thumbv7em-none-eabihf
+    cargo check --target thumbv7em-none-eabihf
+    cargo check --target thumbv7em-none-eabihf --features "serde,num"
+
 # Lint stable and nightly (with f16/f128 features)
 lint:
     cargo clippy --all-targets
