@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-10-15
+
 ### Added
 
 - Optional `num` feature implementing `num-traits` numeric, floating-point, and conversion traits
   for algebraic float wrappers whose inner type provides the corresponding traits.
+- `Neg` implementations for `Algebraic<T>` and `&Algebraic<T>`, for inner types that implement `Neg`.
 - Reference-based compound assignment operators: `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`
   and `RemAssign` now accept `&Algebraic<T>` and `&T` on the right-hand side.
 
@@ -72,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   flags respectively.
 - `Display` implementation for `Algebraic<T>`.
 
+[0.1.4]: https://github.com/tormeh/algebraic/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/tormeh/algebraic/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/tormeh/algebraic/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/tormeh/algebraic/compare/0.1.0...0.1.1
