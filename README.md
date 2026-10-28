@@ -18,6 +18,7 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
   - Mixed references (`af64 + &af64`)
   - Primitive-to-algebraic operations (`af64 + f64`)
 - Full support for `Sum` and `Product` traits, allowing you to sum or multiply standard floating-point iterators directly into an `Algebraic<T>`.
+- The constants and methods that the primitive float types have in `core` (`EPSILON`, `abs`, `max`, `clamp`, `to_bits`, ...), so you can switch between e.g. `f64` and `af64` by changing a type alias. Methods that need `std` (`sqrt`, `sin`, ...) are available through `num_traits::Float` with the `num` feature.
 - Optional `serde` support (behind the `serde` feature) that serializes/deserializes `Algebraic<T>` exactly as the wrapped primitive would, with no `std` requirement.
 - Optional [`num-traits`](https://docs.rs/num-traits) support (behind the `num` feature), including `Float`, `FloatCore`, `FloatConst`, numeric identities, and conversion traits.
 
