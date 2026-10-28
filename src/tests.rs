@@ -940,6 +940,51 @@ mod tests {
     }
 
     #[test]
+    fn test_empty_sum_product() {
+        let empty: [af64; 0] = [];
+        assert_eq!(empty.into_iter().sum::<af64>(), af64::new(0.0));
+        assert_eq!(empty.into_iter().product::<af64>(), af64::new(1.0));
+    }
+
+    #[test]
+    fn test_assign_primitive_ref() {
+        let mut a = af64::new(5.0);
+        a += &3.0;
+        a -= &1.0;
+        a *= &2.0;
+        a /= &4.0;
+        a %= &2.0;
+        assert_eq!(a, af64::new(1.5));
+    }
+
+    #[test]
+    fn test_primitive_ref_operands() {
+        let a = af64::new(6.0);
+        let b = 4.0_f64;
+        for (x, expected) in [
+            (a + &b, 10.0),
+            (&a + b, 10.0),
+            (&a + &b, 10.0),
+            (a - &b, 2.0),
+            (&a - b, 2.0),
+            (&a - &b, 2.0),
+            (a * &b, 24.0),
+            (&a * b, 24.0),
+            (&a * &b, 24.0),
+            (a / &b, 1.5),
+            (&a / b, 1.5),
+            (&a / &b, 1.5),
+            (a % &b, 2.0),
+            (&a % b, 2.0),
+            (&a % &b, 2.0),
+        ] {
+            assert_eq!(x.value(), expected);
+        }
+        let doubled: Vec<af64> = [a, a].iter().map(|x| x * 2.0).collect();
+        assert_eq!(doubled, vec![af64::new(12.0); 2]);
+    }
+
+    #[test]
     fn test_interoperability_traits() {
         // Test Default
         let default_val: Algebraic<f64> = Algebraic::default();
@@ -962,5 +1007,40 @@ mod tests {
         let mut mut_val = Algebraic::new(10.0_f32);
         *mut_val.as_mut() = 20.0_f32;
         assert_eq!(mut_val.value(), 20.0_f32);
+    }
+
+    #[test]
+    fn test_display_honors_formatter_options() {
+        use alloc::format;
+
+        let x = af64::new(1.5);
+        assert_eq!(format!("{x}"), "1.5");
+        assert_eq!(format!("{x:.3}"), "1.500");
+        assert_eq!(format!("{x:>6}"), "   1.5");
+        assert_eq!(format!("{:+}", af32::new(1.0)), "+1");
+    }
+
+    #[test]
+    fn test_from_str() {
+        assert_eq!("1.5".parse::<af64>(), Ok(af64::new(1.5)));
+        assert_eq!("-2".parse::<af32>(), Ok(af32::new(-2.0)));
+        assert_eq!("x".parse::<af32>(), "x".parse::<f32>().map(af32::new));
+    }
+
+    #[test]
+    fn test_neg() {
+        let a = af64::new(2.0);
+        assert_eq!(-a, af64::new(-2.0));
+        assert_eq!(-&a, af64::new(-2.0));
+        assert!((-af64::new(0.0)).is_sign_negative());
+    }
+
+    #[test]
+    fn test_nan_comparisons() {
+        let nan = af64::NAN;
+        let one = af64::new(1.0);
+        assert_ne!(nan, af64::NAN);
+        assert_eq!([nan < one, nan <= one, nan > one, nan >= one], [false; 4]);
+        assert_eq!(nan.partial_cmp(&one), None);
     }
 }

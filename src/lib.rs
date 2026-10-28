@@ -7,8 +7,8 @@
 //!
 //! `algebraic` provides ergonomic [`Algebraic<T>`] wrappers for Rust's primitive floating-point types.
 //! It enables algebraic reordering optimizations (analogous to the compiler's `-ffast-math` or
-//! `-funsafe-math-optimizations` flags) on standard arithmetic operations by leveraging Rust's
-//! experimental algebraic float intrinsics.
+//! `-funsafe-math-optimizations` flags) on standard arithmetic operations by leveraging the algebraic
+//! methods of Rust's float types (`f32::algebraic_add` etc.).
 //!
 //! Ideally these should work like normal float types, but faster and less deterministic.
 //!
@@ -55,7 +55,6 @@
 
 // Core modules
 mod algebraic;
-mod conversions;
 mod impls;
 mod methods;
 #[cfg(feature = "num")]

@@ -16,6 +16,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `is_sign_negative`, `abs`, `signum`, `copysign`, `recip`, `to_degrees`, `to_radians`, `max`,
   `min`, `clamp`, `midpoint`, `next_up`, `next_down`, `total_cmp`, `to_bits` and `from_bits`.
   `recip` uses algebraic division.
+- `FromStr` for `Algebraic<T>`, parsing exactly like `T` (e.g. `"1.5".parse::<af32>()`).
+- The missing owned/borrowed combinations of `Algebraic<T>` with a primitive right-hand side:
+  `Algebraic<T> op &T`, `&Algebraic<T> op T` and `&Algebraic<T> op &T` for `+`, `-`, `*`, `/`
+  and `%`. This makes e.g. `values.iter().map(|x| x * 2.0)` compile.
+
+### Changed
+
+- Removed the redundant `Clone` supertrait from `AlgebraicFloatTrait` (it is implied by `Copy`).
+
+### Fixed
+
+- `Display` for `Algebraic<T>` now honors formatter options such as precision, width and sign
+  (e.g. `format!("{:.2}", x)`), formatting exactly like `T`. Previously they were ignored.
+- With the `num` feature, `num_traits::Float::epsilon` for `af64` returned `f32::EPSILON`, because
+  it fell back to the trait's default implementation. It now returns `f64::EPSILON`. The other
+  defaulted `Float` methods (`is_subnormal`, `to_degrees`, `to_radians`, `clamp` and `copysign`)
+  now also forward to the wrapped type instead of using the less precise generic defaults.
+- With the `num` feature, `num_traits::FloatConst::LOG10_2` and `LOG2_10` were computed as
+  `LN_2 / LN_10` (and its inverse) by the trait's default implementations, which is one ulp off
+  for `af64` (and for `LOG10_2` on `af32`). They now forward to the wrapped type. The
+  `FloatConst` impl now additionally requires `T: Div<Output = T>`, which all primitive floats
+  satisfy.
 
 ## [0.1.4] - 2026-10-15
 
@@ -85,6 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   flags respectively.
 - `Display` implementation for `Algebraic<T>`.
 
+[Unreleased]: https://github.com/tormeh/algebraic/compare/0.1.4...HEAD
 [0.1.4]: https://github.com/tormeh/algebraic/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/tormeh/algebraic/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/tormeh/algebraic/compare/0.1.1...0.1.2

@@ -28,7 +28,6 @@ test:
     cargo test
     cargo test --features "serde,num"
     cargo +nightly test --all-features
-    cargo test --doc
 
 # Run benchmarks (stable types only; f16/f128 require nightly and are not benchmarked here)
 bench:

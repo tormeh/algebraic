@@ -18,7 +18,7 @@ pub type af32 = Algebraic<f32>;
 #[allow(non_camel_case_types)]
 pub type af64 = Algebraic<f64>;
 
-/// This type represents an quadruple-precision float wrapping `f128` with algebraic optimization enabled.
+/// This type represents a quadruple-precision float wrapping `f128` with algebraic optimization enabled.
 ///
 /// This type alias requires the **`f128`** crate feature to be enabled and requires a nightly
 /// toolchain supporting the unstable `#![feature(f128)]` language feature.

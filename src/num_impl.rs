@@ -6,6 +6,7 @@
 use crate::algebraic::Algebraic;
 use crate::traits::AlgebraicFloatTrait;
 use core::num::FpCategory;
+use core::ops::Div;
 use num_traits::float::FloatCore;
 use num_traits::{
     Bounded, ConstOne, ConstZero, Float, FloatConst, FromPrimitive, Inv, MulAdd, MulAddAssign, Num,
@@ -228,9 +229,12 @@ macro_rules! forward_float_binary {
     };
 }
 
+/// The `Div` bound lets `LOG10_2` and `LOG2_10` forward to `T`. Their default implementations
+/// compute `LN_2 / LN_10` (and its inverse) instead, which is off by one ulp for `f32`/`f64`.
+/// `TAU` keeps its default, `PI + PI`, which is exact.
 impl<T> FloatConst for Algebraic<T>
 where
-    T: AlgebraicFloatTrait + FloatConst,
+    T: AlgebraicFloatTrait + FloatConst + Div<Output = T>,
 {
     forward_float_static! {
         E,
@@ -249,6 +253,8 @@ where
         LOG2_E,
         PI,
         SQRT_2,
+        LOG10_2,
+        LOG2_10,
     }
 }
 
@@ -331,6 +337,7 @@ where
         neg_zero,
         min_value,
         min_positive_value,
+        epsilon,
         max_value,
     }
 
@@ -339,6 +346,7 @@ where
         is_infinite,
         is_finite,
         is_normal,
+        is_subnormal,
         is_sign_positive,
         is_sign_negative,
     }
@@ -377,6 +385,8 @@ where
         asinh,
         acosh,
         atanh,
+        to_degrees,
+        to_radians,
     }
 
     #[inline]
@@ -406,6 +416,12 @@ where
         abs_sub,
         hypot,
         atan2,
+        copysign,
+    }
+
+    #[inline]
+    fn clamp(self, min: Self, max: Self) -> Self {
+        Self::new(Float::clamp(self.value, min.value, max.value))
     }
 
     #[inline]
@@ -504,6 +520,37 @@ mod tests {
         assert_eq!(one, af32::new(1.0));
         let pi: af32 = FloatConst::PI();
         assert_eq!(pi, af32::new(core::f32::consts::PI));
+    }
+
+    /// `Float` methods with default bodies must forward to `T` rather than use the defaults,
+    /// e.g. the default `epsilon` would return `f32::EPSILON` for `af64`.
+    #[test]
+    fn test_float_overrides_defaults() {
+        assert_eq!(<af64 as Float>::epsilon(), af64::new(f64::EPSILON));
+        assert_eq!(<af32 as Float>::epsilon(), af32::new(f32::EPSILON));
+        let x = af64::new(1.234);
+        assert_eq!(Float::to_degrees(x).value(), 1.234_f64.to_degrees());
+        assert_eq!(Float::to_radians(x).value(), 1.234_f64.to_radians());
+        assert!(Float::is_subnormal(af64::new(f64::MIN_POSITIVE / 2.0)));
+        assert_eq!(Float::copysign(x, af64::new(-0.0)), af64::new(-1.234));
+        assert_eq!(
+            Float::clamp(x, af64::new(2.0), af64::new(3.0)),
+            af64::new(2.0)
+        );
+    }
+
+    /// `FloatConst` constants with default bodies must forward to `T`; e.g. the default
+    /// `LOG10_2` computes `LN_2 / LN_10`, which differs from `f64::consts::LOG10_2`.
+    #[test]
+    fn test_float_const_overrides_defaults() {
+        use core::f64::consts;
+        assert_eq!(<af64 as FloatConst>::TAU(), af64::new(consts::TAU));
+        assert_eq!(<af64 as FloatConst>::LOG10_2(), af64::new(consts::LOG10_2));
+        assert_eq!(<af64 as FloatConst>::LOG2_10(), af64::new(consts::LOG2_10));
+        assert_eq!(
+            <af32 as FloatConst>::LOG10_2(),
+            af32::new(core::f32::consts::LOG10_2)
+        );
     }
 
     #[test]

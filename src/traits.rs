@@ -16,11 +16,11 @@
 /// let a = 2.0_f64;
 /// let b = 3.0_f64;
 ///
-/// // Directly invoke trait methods on types implementing it
-/// let sum = a.algebraic_add(b);
+/// // Call through the trait; `a.algebraic_add(b)` would call the inherent `f64` method instead
+/// let sum = AlgebraicFloatTrait::algebraic_add(a, b);
 /// assert_eq!(sum, 5.0);
 /// ```
-pub trait AlgebraicFloatTrait: Copy + Clone {
+pub trait AlgebraicFloatTrait: Copy {
     /// Performs algebraic addition of `self` and `rhs`.
     #[must_use]
     fn algebraic_add(self, rhs: Self) -> Self;

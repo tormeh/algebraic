@@ -248,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_arithmetic_methods() {
-        assert_eq!(af32::new(4.0).recip(), af32::new(0.5));
+        assert_eq!(af32::new(4.0).recip(), af32::new(0.25));
         assert_eq!(af64::new(90.0).to_radians().value(), 90.0_f64.to_radians());
         assert_eq!(af64::new(1.0).to_degrees().value(), 1.0_f64.to_degrees());
         assert_eq!(af32::new(1.0).midpoint(af32::new(3.0)), af32::new(2.0));

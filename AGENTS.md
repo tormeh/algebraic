@@ -22,7 +22,7 @@ The toolchain is pinned to **stable 1.98** via `rust-toolchain.toml`. The `f16` 
 - **Use algebraic intrinsics**: When modifying arithmetic implementations, always use the `algebraic_` variant of the operation (e.g., `algebraic_add` instead of standard `add`) to preserve the crate's purpose.
 - **Feature flags**: Always respect `cfg` attributes for `f16` and `f128` — they depend on unstable Rust features and must be compiled with nightly.
 - **Strict Clippy lints**: `Cargo.toml` denies `clippy::all`, `clippy::pedantic`, `clippy::nursery`, and `clippy::indexing_slicing`. New code must pass all of these. Run `just lint` before considering a change complete.
-- **Adding a new float type**: Implement `AlgebraicFloatTrait` for the new type in `src/impls/`, add `From`/`Into` conversions in `src/conversions.rs`, and add a type alias in `src/types.rs`. Gate everything behind a feature flag if the type is unstable.
+- **Adding a new float type**: For a primitive float, add an `impl_float!` invocation in `src/impls.rs` (trait impl, `From` conversions and reversed operators) and an `impl_float_methods!` invocation in `src/methods.rs`, and add a type alias in `src/types.rs`. Gate everything behind a feature flag if the type is unstable.
 - **Adding new math operations**: Check whether an algebraic intrinsic exists in `core::intrinsics` or the standard library's experimental math modules before falling back to a non-algebraic implementation.
 - **Respect API best-practices**: We try to follow [the official guidelines](https://rust-lang.github.io/api-guidelines).
 - **Keep a changelog**: We use [Keep a Changelog](https://keepachangelog.com/en)

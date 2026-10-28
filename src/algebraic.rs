@@ -1,5 +1,6 @@
 use crate::traits::AlgebraicFloatTrait;
 use core::fmt::{Display, Formatter, Result};
+use core::str::FromStr;
 
 /// A wrapper for float types, which allows for algebraic reordering by the compiler.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -79,10 +80,20 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
     }
 }
 
-// Display implementations
+/// Formats exactly like `T`, honoring formatter options such as precision and width.
 impl<T: AlgebraicFloatTrait + Display> Display for Algebraic<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        write!(f, "{}", self.value)
+        Display::fmt(&self.value, f)
+    }
+}
+
+/// Parses exactly like `T`, e.g. `"1.5".parse::<af32>()`.
+impl<T: AlgebraicFloatTrait + FromStr> FromStr for Algebraic<T> {
+    type Err = T::Err;
+
+    #[inline]
+    fn from_str(s: &str) -> core::result::Result<Self, Self::Err> {
+        s.parse().map(Self::new)
     }
 }
 
