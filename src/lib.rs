@@ -52,11 +52,57 @@
 //! let sum: af32 = values.into_iter().sum();
 //! assert_eq!(sum.value(), 10.0);
 //! ```
+//!
+//! ## Swapping between primitive and algebraic floats
+//!
+//! The concrete types (`af32`, `af64`, ...) provide the constants and methods that the primitive
+//! float types have in `core`, such as `EPSILON`, `abs`, `max`, `clamp` and `to_bits`. These take
+//! and return the algebraic type, so code using them compiles unchanged with either type:
+//!
+//! ```rust
+//! // type Real = f64;
+//! type Real = algebraic::af64;
+//!
+//! fn largest_magnitude(values: &[Real]) -> Real {
+//!     values
+//!         .iter()
+//!         .fold(Real::from(0.0), |acc, &x| acc.max(x.abs()))
+//! }
+//!
+//! let values = [3.0, -4.0].map(Real::from);
+//! assert_eq!(largest_magnitude(&values), Real::from(4.0));
+//! ```
+//!
+//! Since this crate is `no_std`, methods that need `std`, such as `sqrt`, `floor`, `mul_add` and
+//! `sin`, are not available as inherent methods. Enable the **`num`** feature and import
+//! [`num_traits::Float`](https://docs.rs/num-traits/latest/num_traits/float/trait.Float.html)
+//! to call them on both the primitive and the algebraic types:
+//!
+//! ```rust
+//! # #[cfg(feature = "num")]
+//! # {
+//! use num_traits::Float;
+//!
+//! // type Real = f64;
+//! type Real = algebraic::af64;
+//!
+//! fn norm(values: &[Real]) -> Real {
+//!     values.iter().map(|&x| x * x).sum::<Real>().sqrt()
+//! }
+//!
+//! let values = [3.0, -4.0].map(Real::from);
+//! assert_eq!(norm(&values), Real::from(5.0));
+//! # }
+//! ```
+//!
+//! The inherent methods forward to the primitive methods and are therefore not algebraic, except
+//! `recip`, which uses algebraic division.
 
 // Core modules
 mod algebraic;
 mod conversions;
 mod impls;
+mod methods;
 #[cfg(feature = "num")]
 mod num_impl;
 mod ops;
