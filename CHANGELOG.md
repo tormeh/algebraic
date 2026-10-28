@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Inherent constants and methods on `af32`, `af64`, `af16` and `af128` mirroring those of the
+  primitive float types available in `core`, so they can be used without importing any traits:
+  `NAN`, `INFINITY`, `NEG_INFINITY`, `MIN`, `MAX`, `MIN_POSITIVE`, `EPSILON`, `is_nan`,
+  `is_infinite`, `is_finite`, `is_subnormal`, `is_normal`, `classify`, `is_sign_positive`,
+  `is_sign_negative`, `abs`, `signum`, `copysign`, `recip`, `to_degrees`, `to_radians`, `max`,
+  `min`, `clamp`, `midpoint`, `next_up`, `next_down`, `total_cmp`, `to_bits` and `from_bits`.
+  `recip` uses algebraic division.
+
 ## [0.1.4] - 2026-10-15
 
 ### Added

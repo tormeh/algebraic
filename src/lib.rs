@@ -57,6 +57,7 @@
 mod algebraic;
 mod conversions;
 mod impls;
+mod methods;
 #[cfg(feature = "num")]
 mod num_impl;
 mod ops;
