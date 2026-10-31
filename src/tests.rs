@@ -13,6 +13,7 @@ use crate::types::*;
 mod tests {
     use super::*;
     extern crate alloc;
+    use alloc::format;
     use alloc::vec;
     use alloc::vec::Vec;
 
@@ -173,6 +174,26 @@ mod tests {
     fn test_value_method() {
         let algebraic = Algebraic::new(3.14_f64);
         assert_eq!(3.14_f64, algebraic.value());
+    }
+
+    #[test]
+    fn test_formatting_matches_primitive() {
+        let a = af64::new(3.14159);
+        let x = 3.14159_f64;
+        assert_eq!(format!("{a}"), format!("{x}"));
+        assert_eq!(format!("{a:?}"), format!("{x:?}"));
+        assert_eq!(format!("{a:.2}"), format!("{x:.2}"));
+        assert_eq!(format!("{a:>10.3}"), format!("{x:>10.3}"));
+        assert_eq!(format!("{a:e}"), format!("{x:e}"));
+        assert_eq!(format!("{a:.2E}"), format!("{x:.2E}"));
+        assert_eq!(format!("{:?}", af32::new(1.0)), format!("{:?}", 1.0_f32));
+    }
+
+    #[test]
+    fn test_from_str() {
+        assert_eq!("1.5".parse::<af32>(), Ok(af32::new(1.5)));
+        assert_eq!("-2.25e3".parse::<af64>(), Ok(af64::new(-2250.0)));
+        assert_eq!("abc".parse::<af64>(), "abc".parse::<f64>().map(af64::new));
     }
 
     #[test]
