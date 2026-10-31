@@ -20,6 +20,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `recip` uses algebraic division.
 - Crate documentation on switching between primitive and algebraic floats, including how to use
   `std`-only methods such as `sqrt` through `num_traits::Float`.
+- `FromStr` for `Algebraic<T>`, parsing exactly like `T`.
+- `LowerExp` and `UpperExp` for `Algebraic<T>`, so `{:e}` and `{:E}` format exactly like `T`.
+
+### Changed
+
+- `Debug` output of `Algebraic<T>` is now the same as for `T` (e.g. `1.5` instead of
+  `Algebraic { value: 1.5 }`).
+
+### Fixed
+
+- `Display` for `Algebraic<T>` now respects formatting options such as precision and width
+  (e.g. `{:.2}`).
 
 ## [0.1.4] - 2026-10-15
 

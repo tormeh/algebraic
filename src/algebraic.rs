@@ -1,8 +1,9 @@
 use crate::traits::AlgebraicFloatTrait;
-use core::fmt::{Display, Formatter, Result};
+use core::fmt::{Debug, Display, Formatter, LowerExp, Result, UpperExp};
+use core::str::FromStr;
 
 /// A wrapper for float types, which allows for algebraic reordering by the compiler.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
 #[repr(transparent)]
 pub struct Algebraic<T: AlgebraicFloatTrait> {
     pub(crate) value: T,
@@ -79,10 +80,39 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
     }
 }
 
-// Display implementations
+// Formatting forwards to `T`, including options such as precision and width, so that
+// `Algebraic<T>` prints exactly like `T`.
+impl<T: AlgebraicFloatTrait + Debug> Debug for Algebraic<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        Debug::fmt(&self.value, f)
+    }
+}
+
 impl<T: AlgebraicFloatTrait + Display> Display for Algebraic<T> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        write!(f, "{}", self.value)
+        Display::fmt(&self.value, f)
+    }
+}
+
+impl<T: AlgebraicFloatTrait + LowerExp> LowerExp for Algebraic<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        LowerExp::fmt(&self.value, f)
+    }
+}
+
+impl<T: AlgebraicFloatTrait + UpperExp> UpperExp for Algebraic<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        UpperExp::fmt(&self.value, f)
+    }
+}
+
+/// Parses the string exactly like `T` does.
+impl<T: AlgebraicFloatTrait + FromStr> FromStr for Algebraic<T> {
+    type Err = T::Err;
+
+    #[inline]
+    fn from_str(s: &str) -> core::result::Result<Self, Self::Err> {
+        s.parse().map(Self::new)
     }
 }
 
