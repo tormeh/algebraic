@@ -71,6 +71,13 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
         Self { value: T::one() }
     }
 
+    /// Takes the reciprocal (inverse) of a number, `1/x`, using algebraic division.
+    #[must_use]
+    #[inline]
+    pub fn recip(self) -> Self {
+        Self::one() / self
+    }
+
     /// Returns the wrapped inner raw floating-point value.
     ///
     /// This is equivalent to converting using `Into<T>` or `From`.

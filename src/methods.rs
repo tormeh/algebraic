@@ -120,13 +120,6 @@ macro_rules! impl_float_methods {
                 Self::new(self.value.copysign(sign.value))
             }
 
-            /// Takes the reciprocal (inverse) of a number, `1/x`, using algebraic division.
-            #[must_use]
-            #[inline]
-            pub fn recip(self) -> Self {
-                Self::new(1.0) / self
-            }
-
             /// Converts radians to degrees.
             #[must_use]
             #[inline]

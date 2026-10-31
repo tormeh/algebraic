@@ -296,7 +296,7 @@ where
 
     #[inline]
     fn recip(self) -> Self {
-        Self::one() / self
+        self.recip()
     }
 
     #[inline]
@@ -381,7 +381,7 @@ where
 
     #[inline]
     fn recip(self) -> Self {
-        Self::one() / self
+        self.recip()
     }
 
     #[inline]
@@ -428,7 +428,7 @@ where
 
     #[inline]
     fn inv(self) -> Self::Output {
-        Self::one() / self
+        self.recip()
     }
 }
 
