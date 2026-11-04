@@ -25,8 +25,8 @@ The recently stabilized algebraic methods for floating-point types in Rust solve
 ## Benchmarks
 
 Measured with [Criterion](https://github.com/bheisler/criterion.rs) on an AMD
-Ryzen 75800X3D with `rustc 1.98.0`, operating on slices of 65,536 elements with
-`RUSTFLAGS="-C target-cpu=x86-64-v3"` (see[`benches/arithmetic.rs`](benches/arithmetic.rs)):
+Ryzen 7 5800X3D with `rustc 1.98.0`, operating on slices of 65,536 elements with
+`RUSTFLAGS="-C target-cpu=x86-64-v3"` (see [`benches/arithmetic.rs`](benches/arithmetic.rs)):
 
 | Operation       | `f32`   | `af32`  | Speedup    | `f64`    | `af64`   | Speedup    |
 |-----------------|---------|---------|------------|----------|----------|------------|
