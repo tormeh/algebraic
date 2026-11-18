@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- An `Ord` implementation for `Algebraic<T>`, whenever `T: Ord`; this doesn't affect the standard library
+  floating point types but might become useful for finite float types or similar.
+
+### Changed
+
+- The `Neg` implementation for `Algebraic<T>` no longer uses `T: Neg`, and instead behaves more
+  "algebraically". A similar change applies to the `MulAdd` and `MulAddAssign` implementations, when
+  `num_traits` support is enabled.
+
 ## [0.1.5] - 2026-11-04
 
 ### Added

@@ -478,21 +478,21 @@ impl<T: AlgebraicFloatTrait> Rem<T> for Algebraic<T> {
     }
 }
 
-impl<T: AlgebraicFloatTrait + Neg<Output = T>> Neg for Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Neg for Algebraic<T> {
     type Output = Self;
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Self::new(-self.value)
+        Self::new(T::zero().algebraic_sub(self.value))
     }
 }
 
-impl<T: AlgebraicFloatTrait + Neg<Output = T>> Neg for &Algebraic<T> {
+impl<T: AlgebraicFloatTrait> Neg for &Algebraic<T> {
     type Output = Algebraic<T>;
 
     #[inline]
     fn neg(self) -> Self::Output {
-        Algebraic::new(-self.value)
+        -*self
     }
 }
 

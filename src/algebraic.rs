@@ -3,7 +3,7 @@ use core::fmt::{Debug, Display, Formatter, LowerExp, Result, UpperExp};
 use core::str::FromStr;
 
 /// A wrapper for float types, which allows for algebraic reordering by the compiler.
-#[derive(Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Clone, Copy, Default)]
 #[repr(transparent)]
 pub struct Algebraic<T: AlgebraicFloatTrait> {
     pub(crate) value: T,
@@ -50,6 +50,43 @@ impl<T: AlgebraicFloatTrait + PartialOrd> PartialOrd for Algebraic<T> {
     }
 }
 
+impl<T: AlgebraicFloatTrait + PartialEq> PartialEq for Algebraic<T> {
+    #[inline]
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+
+    #[expect(clippy::partialeq_ne_impl)]
+    #[inline]
+    fn ne(&self, other: &Self) -> bool {
+        self.value != other.value
+    }
+}
+
+impl<T: AlgebraicFloatTrait + Ord> Ord for Algebraic<T> {
+    #[inline]
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+        self.value.cmp(&other.value)
+    }
+
+    #[inline]
+    fn max(self, other: Self) -> Self {
+        Self::new(self.value.max(other.value))
+    }
+
+    #[inline]
+    fn min(self, other: Self) -> Self {
+        Self::new(self.value.min(other.value))
+    }
+
+    #[inline]
+    fn clamp(self, min: Self, max: Self) -> Self {
+        Self::new(self.value.clamp(min.value, max.value))
+    }
+}
+
+impl<T: AlgebraicFloatTrait + Eq> Eq for Algebraic<T> {}
+
 impl<T: AlgebraicFloatTrait> Algebraic<T> {
     /// Creates a new `Algebraic` instance wrapping the given primitive floating-point value.
     #[inline]
@@ -90,24 +127,28 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
 // Formatting forwards to `T`, including options such as precision and width, so that
 // `Algebraic<T>` prints exactly like `T`.
 impl<T: AlgebraicFloatTrait + Debug> Debug for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Debug::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + Display> Display for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Display::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + LowerExp> LowerExp for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         LowerExp::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + UpperExp> UpperExp for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         UpperExp::fmt(&self.value, f)
     }
