@@ -434,23 +434,23 @@ where
 
 impl<T> MulAdd for Algebraic<T>
 where
-    T: AlgebraicFloatTrait + MulAdd<Output = T>,
+    T: AlgebraicFloatTrait,
 {
     type Output = Self;
 
     #[inline]
     fn mul_add(self, a: Self, b: Self) -> Self::Output {
-        Self::new(self.value.mul_add(a.value, b.value))
+        Self::new(self.value.algebraic_mul(a.value).algebraic_add(b.value))
     }
 }
 
 impl<T> MulAddAssign for Algebraic<T>
 where
-    T: AlgebraicFloatTrait + MulAddAssign,
+    T: AlgebraicFloatTrait,
 {
     #[inline]
     fn mul_add_assign(&mut self, a: Self, b: Self) {
-        self.value.mul_add_assign(a.value, b.value);
+        *self = (*self).mul_add(a, b);
     }
 }
 
