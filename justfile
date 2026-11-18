@@ -40,6 +40,10 @@ bench:
 bench-v3:
     RUSTFLAGS="-C target-cpu=x86-64-v3" cargo bench
 
+# Run benchmarks compiled and tuned for the current cpu.
+bench-native:
+    RUSTFLAGS="-C target-cpu=native" cargo bench
+
 # Run check-types, lint, and test (full validation)
 check: check-types lint test
 
