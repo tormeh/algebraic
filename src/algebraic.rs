@@ -90,24 +90,28 @@ impl<T: AlgebraicFloatTrait> Algebraic<T> {
 // Formatting forwards to `T`, including options such as precision and width, so that
 // `Algebraic<T>` prints exactly like `T`.
 impl<T: AlgebraicFloatTrait + Debug> Debug for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Debug::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + Display> Display for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Display::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + LowerExp> LowerExp for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         LowerExp::fmt(&self.value, f)
     }
 }
 
 impl<T: AlgebraicFloatTrait + UpperExp> UpperExp for Algebraic<T> {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         UpperExp::fmt(&self.value, f)
     }
