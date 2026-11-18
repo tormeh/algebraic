@@ -56,6 +56,7 @@ impl<T: AlgebraicFloatTrait + PartialEq> PartialEq for Algebraic<T> {
         self.value == other.value
     }
 
+    #[expect(clippy::partialeq_ne_impl)]
     #[inline]
     fn ne(&self, other: &Self) -> bool {
         self.value != other.value
