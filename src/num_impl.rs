@@ -386,7 +386,7 @@ where
 
     #[inline]
     fn mul_add(self, a: Self, b: Self) -> Self {
-        Self::new(self.value.mul_add(a.value, b.value))
+        Self::new(self.value.algebraic_mul(a.value).algebraic_add(b.value))
     }
 
     #[inline]
